@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Providers;
+namespace Byandev\Providers;
 
 use Illuminate\Support\ServiceProvider;
 
