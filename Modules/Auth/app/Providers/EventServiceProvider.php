@@ -1,6 +1,6 @@
 <?php
 
-namespace Byandev\Modules\Auth\Providers;
+namespace Modules\Auth\Providers;
 
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
 

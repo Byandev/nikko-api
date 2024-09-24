@@ -1,6 +1,6 @@
 <?php
 
-namespace Byandev\Modules\Auth\Providers;
+namespace Modules\Auth\Providers;
 
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;

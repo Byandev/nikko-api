@@ -1,6 +1,6 @@
 <?php
 
-namespace Byandev\Modules\Auth\Providers;
+namespace Modules\Auth\Providers;
 
 use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
