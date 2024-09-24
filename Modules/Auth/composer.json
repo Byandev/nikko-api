@@ -17,14 +17,14 @@
     },
     "autoload": {
         "psr-4": {
-            "Byandev\\Modules\\Auth\\": "app/",
-            "Byandev\\Modules\\Auth\\Database\\Factories\\": "database/factories/",
-            "Byandev\\Modules\\Auth\\Database\\Seeders\\": "database/seeders/"
+            "Modules\\Auth\\": "app/",
+            "Modules\\Auth\\Database\\Factories\\": "database/factories/",
+            "Modules\\Auth\\Database\\Seeders\\": "database/seeders/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Byandev\\Modules\\Auth\\Tests\\": "tests/"
+            "Modules\\Auth\\Tests\\": "tests/"
         }
     }
 }

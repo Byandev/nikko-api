@@ -13,7 +13,7 @@ return [
     | Default module namespace.
     |
     */
-    'namespace' => 'Byandev\Modules',
+    'namespace' => 'Modules',
 
     /*
     |--------------------------------------------------------------------------

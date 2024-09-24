@@ -5,7 +5,7 @@
     "keywords": [],
     "priority": 0,
     "providers": [
-        "Byandev\\Modules\\Auth\\Providers\\AuthServiceProvider"
+        "Modules\\Auth\\Providers\\AuthServiceProvider"
     ],
     "files": []
 }

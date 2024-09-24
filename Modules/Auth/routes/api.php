@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use Byandev\Modules\Auth\Http\Controllers\AuthController;
+use Modules\Auth\Http\Controllers\RegisterController;
 
 /*
  *--------------------------------------------------------------------------
@@ -14,6 +14,6 @@ use Byandev\Modules\Auth\Http\Controllers\AuthController;
  *
 */
 
-Route::middleware(['auth:sanctum'])->prefix('v1')->group(function () {
-    Route::apiResource('auth', AuthController::class)->names('auth');
+Route::name('auth')->prefix('v1/auth')->group(function () {
+    Route::post('/register', RegisterController::class);
 });
