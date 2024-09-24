@@ -1,0 +1,11 @@
+{
+    "name": "Auth",
+    "alias": "auth",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Byandev\\Modules\\Auth\\Providers\\AuthServiceProvider"
+    ],
+    "files": []
+}
