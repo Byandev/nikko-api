@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "e3e61428e4847bd84e5756ff3e973f10",
+    "content-hash": "97937f6a73575720bcfba5711b66ab97",
     "packages": [
         {
             "name": "brick/math",
@@ -2386,22 +2386,20 @@
         },
         {
             "name": "nwidart/laravel-modules",
-            "version": "v11.1.4",
+            "version": "v11.1.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/nWidart/laravel-modules.git",
-                "reference": "fb1f6bd7b168baaa6212dee678c18fc983d47ed4"
+                "reference": "d275a5b9f7c329c505480750d354a7eef69fc42a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nWidart/laravel-modules/zipball/fb1f6bd7b168baaa6212dee678c18fc983d47ed4",
-                "reference": "fb1f6bd7b168baaa6212dee678c18fc983d47ed4",
+                "url": "https://api.github.com/repos/nWidart/laravel-modules/zipball/d275a5b9f7c329c505480750d354a7eef69fc42a",
+                "reference": "d275a5b9f7c329c505480750d354a7eef69fc42a",
                 "shasum": ""
             },
             "require": {
-                "ext-dom": "*",
                 "ext-json": "*",
-                "ext-simplexml": "*",
                 "php": ">=8.2",
                 "wikimedia/composer-merge-plugin": "^2.1"
             },
@@ -2459,7 +2457,7 @@
             ],
             "support": {
                 "issues": "https://github.com/nWidart/laravel-modules/issues",
-                "source": "https://github.com/nWidart/laravel-modules/tree/v11.1.4"
+                "source": "https://github.com/nWidart/laravel-modules/tree/v11.1.2"
             },
             "funding": [
                 {
@@ -2471,7 +2469,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2024-09-22T20:04:49+00:00"
+            "time": "2024-09-20T08:45:18+00:00"
         },
         {
             "name": "phpoption/phpoption",

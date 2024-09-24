@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace Byandev\Http\Controllers;
 
 abstract class Controller
 {
