@@ -5,6 +5,7 @@ namespace Modules\Auth\Transformers;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Modules\Auth\Models\User;
+use Modules\Media\Transformers\MediaResource;
 
 /**
  * @mixin User
@@ -24,6 +25,8 @@ class UserResource extends JsonResource
             'email_verified_at' => $this->email_verified_at,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
+
+            'avatar' => MediaResource::make($this->whenLoaded('avatar')),
             'accounts' => AccountResource::collection($this->whenLoaded('accounts')),
         ];
     }

@@ -14,7 +14,7 @@ class ProfileController extends Controller
      */
     public function index(Request $request)
     {
-        return UserResource::make($request->user());
+        return UserResource::make($request->user()->loadMissing(['avatar', 'accounts']));
     }
 
     /**
@@ -26,6 +26,16 @@ class ProfileController extends Controller
 
         $user->update($request->validated());
 
-        return UserResource::make($user);
+        if ($request->has('avatar')) {
+            $avatarId = $request->input('avatar');
+
+            if (is_null($avatarId)) {
+                $user->removeAvatar();
+            } else {
+                $user->setAvatarByMediaId($avatarId);
+            }
+        }
+
+        return UserResource::make($user->loadMissing(['avatar', 'accounts']));
     }
 }

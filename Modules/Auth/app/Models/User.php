@@ -10,12 +10,12 @@ use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Str;
 use Laravel\Sanctum\HasApiTokens;
 use Modules\Auth\Database\Factories\UserFactory;
+use Modules\Media\Models\Traits\HasAvatar;
 use Spatie\MediaLibrary\HasMedia;
-use Spatie\MediaLibrary\InteractsWithMedia;
 
 class User extends Authenticatable implements HasMedia
 {
-    use HasApiTokens, HasFactory, InteractsWithMedia, Notifiable;
+    use HasApiTokens, HasAvatar, HasFactory, Notifiable;
 
     /**
      * The attributes that are mass assignable.
