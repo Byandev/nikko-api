@@ -1,7 +1,6 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use Modules\Media\Http\Controllers\MediaController;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,6 +13,4 @@ use Modules\Media\Http\Controllers\MediaController;
 |
 */
 
-Route::group([], function () {
-    Route::resource('media', MediaController::class)->names('media');
-});
+Route::group([], function () {});

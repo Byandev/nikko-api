@@ -4,62 +4,40 @@ namespace Modules\Media\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Modules\Media\Enums\MediaCollectionType;
+use Modules\Media\Models\Media;
+use Modules\Media\Transformers\MediaResource;
 
 class MediaController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
-    {
-        return view('media::index');
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        return view('media::create');
-    }
-
     /**
      * Store a newly created resource in storage.
      */
     public function store(Request $request)
     {
-        //
+        $user = $request->user();
+
+        $media = $user->addMediaFromRequest('file')
+            ->toMediaCollection(MediaCollectionType::UNASSIGNED->value);
+
+        return MediaResource::make($media);
     }
 
     /**
      * Show the specified resource.
      */
-    public function show($id)
+    public function show(Media $media)
     {
-        return view('media::show');
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit($id)
-    {
-        return view('media::edit');
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, $id)
-    {
-        //
+        return MediaResource::make($media);
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy($id)
+    public function destroy(Media $media)
     {
-        //
+        $media->delete();
+
+        return response()->json([]);
     }
 }
