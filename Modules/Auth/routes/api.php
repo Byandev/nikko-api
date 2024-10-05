@@ -1,10 +1,12 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Modules\Auth\Http\Controllers\ForgotPasswordController;
 use Modules\Auth\Http\Controllers\LoginController;
 use Modules\Auth\Http\Controllers\LogoutController;
 use Modules\Auth\Http\Controllers\ProfileController;
 use Modules\Auth\Http\Controllers\RegisterController;
+use Modules\Auth\Http\Controllers\ResetPasswordController;
 
 /*
  *--------------------------------------------------------------------------
@@ -18,8 +20,10 @@ use Modules\Auth\Http\Controllers\RegisterController;
 */
 
 Route::name('auth.')->prefix('v1/auth')->group(function () {
-    Route::post('/login', LoginController::class);
-    Route::post('/register', RegisterController::class);
+    Route::post('/login', LoginController::class)->name('login');
+    Route::post('/register', RegisterController::class)->name('register');
+    Route::post('/forgot-password', ForgotPasswordController::class)->name('forgot-password');
+    Route::post('/reset-password', ResetPasswordController::class)->name('reset-password');
 
     Route::middleware('auth:sanctum')->group(function () {
         Route::post('/logout', LogoutController::class)->name('logout');

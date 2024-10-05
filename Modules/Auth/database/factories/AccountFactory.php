@@ -23,7 +23,7 @@ class AccountFactory extends Factory
     {
         return [
             'user_id' => fn () => User::factory()->create()->id,
-            'type' => collect(AccountType::cases())->random()->value
+            'type' => collect(AccountType::cases())->random()->value,
         ];
     }
 }

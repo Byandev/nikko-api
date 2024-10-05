@@ -16,11 +16,11 @@ class RegisterController extends Controller
             'email' => $request->post('email'),
             'password' => $request->post('password'),
             'first_name' => $request->post('first_name'),
-            'last_name' =>  $request->post('last_name'),
+            'last_name' => $request->post('last_name'),
         ]);
 
         $user->accounts()->create([
-            'type'=> $request->post('account_type')
+            'type' => $request->post('account_type'),
         ]);
 
         $user->notify(new EmailVerificationNotification($user->generateEmailVerificationCode()));

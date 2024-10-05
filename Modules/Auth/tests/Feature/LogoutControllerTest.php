@@ -15,7 +15,7 @@ class LogoutControllerTest extends TestCase
 
     public function test_user_can_logout(): void
     {
-        Sanctum::actingAs( User::factory()->create());
+        Sanctum::actingAs(User::factory()->create());
 
         $this->postJson(route('api.auth.logout'))
             ->assertSuccessful();

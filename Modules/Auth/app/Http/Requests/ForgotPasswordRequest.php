@@ -3,10 +3,9 @@
 namespace Modules\Auth\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Validation\Rule;
-use Modules\Auth\Enums\AccountType;
+use Modules\Auth\Models\User;
 
-class RegistrationRequest extends FormRequest
+class ForgotPasswordRequest extends FormRequest
 {
     /**
      * Get the validation rules that apply to the request.
@@ -14,11 +13,7 @@ class RegistrationRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'email' => 'required|email|unique:users,email',
-            'password' => 'required|min:8|confirmed',
-            'first_name' => 'sometimes',
-            'last_name' => 'sometimes',
-            'account_type' => ['required', Rule::enum(AccountType::class)],
+            'email' => 'required|email|exists:users',
         ];
     }
 
@@ -28,5 +23,12 @@ class RegistrationRequest extends FormRequest
     public function authorize(): bool
     {
         return true;
+    }
+
+    public function messages(): array
+    {
+        return [
+            'email.exists' => 'Email does not exists on our system.',
+        ];
     }
 }

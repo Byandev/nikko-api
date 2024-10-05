@@ -25,7 +25,7 @@ class RegisterControllerTest extends TestCase
             'last_name' => fake()->lastName(),
             'password' => $password = fake()->password(8),
             'password_confirmation' => $password,
-            'account_type' => collect(AccountType::cases())->random()->value
+            'account_type' => collect(AccountType::cases())->random()->value,
         ];
 
         $this->postJson('/api/v1/auth/register', $data)

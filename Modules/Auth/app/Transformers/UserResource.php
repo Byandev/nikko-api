@@ -16,7 +16,7 @@ class UserResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        return  [
+        return [
             'id' => $this->id,
             'email' => $this->email,
             'first_name' => $this->first_name,
@@ -24,7 +24,7 @@ class UserResource extends JsonResource
             'email_verified_at' => $this->email_verified_at,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
-            'accounts' => AccountResource::collection($this->whenLoaded('accounts'))
+            'accounts' => AccountResource::collection($this->whenLoaded('accounts')),
         ];
     }
 }
