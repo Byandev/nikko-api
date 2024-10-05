@@ -4,12 +4,12 @@ namespace Modules\Auth\Transformers;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
-use Modules\Auth\Models\User;
+use Modules\Auth\Models\Account;
 
 /**
- * @mixin User
+ * @mixin Account
  */
-class UserResource extends JsonResource
+class AccountResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -18,13 +18,9 @@ class UserResource extends JsonResource
     {
         return  [
             'id' => $this->id,
-            'email' => $this->email,
-            'first_name' => $this->first_name,
-            'last_name' => $this->last_name,
-            'email_verified_at' => $this->email_verified_at,
+            'type' => $this->type,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
-            'accounts' => AccountResource::collection($this->whenLoaded('accounts'))
         ];
     }
 }

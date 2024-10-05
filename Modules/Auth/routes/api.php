@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use Modules\Auth\Http\Controllers\LoginController;
+use Modules\Auth\Http\Controllers\LogoutController;
 use Modules\Auth\Http\Controllers\ProfileController;
 use Modules\Auth\Http\Controllers\RegisterController;
 
@@ -21,6 +22,7 @@ Route::name('auth.')->prefix('v1/auth')->group(function () {
     Route::post('/register', RegisterController::class);
 
     Route::middleware('auth:sanctum')->group(function () {
+        Route::post('/logout', LogoutController::class)->name('logout');
         Route::get('/profile', [ProfileController::class, 'index'])->name('profile.index');
         Route::put('/profile', [ProfileController::class, 'update'])->name('profile.update');
     });

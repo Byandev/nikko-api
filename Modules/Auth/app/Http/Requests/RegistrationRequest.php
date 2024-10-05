@@ -3,6 +3,8 @@
 namespace Modules\Auth\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
+use Modules\Auth\Enums\AccountType;
 
 class RegistrationRequest extends FormRequest
 {
@@ -12,10 +14,11 @@ class RegistrationRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'email' => 'required|email|unique:users',
+            'email' => 'required|email|unique:users,email',
             'password' => 'required|min:8|confirmed',
             'first_name' => 'sometimes',
             'last_name' => 'sometimes',
+            'account_type' => ['required', Rule::enum(AccountType::class)]
         ];
     }
 
