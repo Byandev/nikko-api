@@ -26,5 +26,8 @@
         "psr-4": {
             "Modules\\Media\\Tests\\": "tests/"
         }
+    },
+    "require": {
+        "spatie/laravel-medialibrary": "^11.9"
     }
 }
