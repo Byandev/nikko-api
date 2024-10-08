@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Modules\Auth\Http\Controllers\ChangePasswordController;
 use Modules\Auth\Http\Controllers\EmailVerificationController;
 use Modules\Auth\Http\Controllers\ForgotPasswordController;
 use Modules\Auth\Http\Controllers\LoginController;
@@ -31,6 +32,7 @@ Route::name('auth.')->prefix('v1/auth')->group(function () {
         Route::get('/profile', [ProfileController::class, 'index'])->name('profile.index');
         Route::put('/profile', [ProfileController::class, 'update'])->name('profile.update');
 
+        Route::post('/change-password', ChangePasswordController::class)->name('change-password');
         Route::post('email-verification/verify', [EmailVerificationController::class, 'verify'])->name('email-verification.verify');
         Route::post('email-verification/resend', [EmailVerificationController::class, 'resend'])->name('email-verification.resend');
     });
