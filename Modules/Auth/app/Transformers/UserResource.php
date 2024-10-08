@@ -27,6 +27,7 @@ class UserResource extends JsonResource
             'updated_at' => $this->updated_at,
 
             'avatar' => MediaResource::make($this->whenLoaded('avatar')),
+            'banner' => MediaResource::make($this->whenLoaded('banner')),
             'accounts' => AccountResource::collection($this->whenLoaded('accounts')),
         ];
     }

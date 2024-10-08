@@ -12,7 +12,7 @@ class LoginController extends Controller
     public function __invoke(LoginRequest $request)
     {
         $user = User::whereEmail($request->post('email'))
-            ->with(['avatar', 'accounts'])
+            ->with(['avatar', 'accounts', 'banner'])
             ->first();
 
         $accessToken = $user->createToken($request->header('user-agent', config('app.name')));

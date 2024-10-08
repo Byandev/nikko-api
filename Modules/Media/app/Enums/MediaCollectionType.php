@@ -6,4 +6,5 @@ enum MediaCollectionType: string
 {
     case UNASSIGNED = 'UNASSIGNED';
     case AVATAR = 'AVATAR';
+    case BANNER = 'BANNER';
 }

@@ -5,23 +5,14 @@ namespace Modules\Media\Models\Traits;
 use Illuminate\Database\Eloquent\Relations\MorphOne;
 use Modules\Media\Enums\MediaCollectionType;
 use Modules\Media\Models\Media;
-use Spatie\MediaLibrary\InteractsWithMedia;
 
-trait HasAvatar
+trait HasBanner
 {
-    use InteractsWithMedia;
-
-    public function avatar(): MorphOne
+    public function banner(): MorphOne
     {
         return $this->morphOne(Media::class, 'model')
-            ->where('collection_name', MediaCollectionType::AVATAR->value);
+            ->where('collection_name', MediaCollectionType::BANNER->value);
     }
-
-    /*
-    |--------------------------------------------------------------------------
-    | Media Collections
-    |--------------------------------------------------------------------------
-    */
 
     /*
     |--------------------------------------------------------------------------
@@ -32,17 +23,17 @@ trait HasAvatar
     /**
      * Remove the avatar media.
      */
-    public function removeAvatar(): void
+    public function removeBanner(): void
     {
         $this->touch();
 
-        $this->avatar()->delete();
+        $this->banner()->delete();
     }
 
     /**
      * Set the avatar using a provided media id.
      */
-    public function setAvatarByMediaId(int $mediaId)
+    public function setBannerByMediaId(int $mediaId)
     {
         $instance = $this;
 
@@ -50,7 +41,7 @@ trait HasAvatar
 
         $this->touch();
 
-        $media->move($instance, MediaCollectionType::AVATAR->value);
+        $media->move($instance, MediaCollectionType::BANNER->value);
 
         return $media->fresh();
     }

@@ -10,12 +10,14 @@ use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Str;
 use Laravel\Sanctum\HasApiTokens;
 use Modules\Auth\Database\Factories\UserFactory;
+use Modules\Media\Enums\MediaCollectionType;
 use Modules\Media\Models\Traits\HasAvatar;
+use Modules\Media\Models\Traits\HasBanner;
 use Spatie\MediaLibrary\HasMedia;
 
 class User extends Authenticatable implements HasMedia
 {
-    use HasApiTokens, HasAvatar, HasFactory, Notifiable;
+    use HasApiTokens, HasAvatar, HasBanner, HasFactory, Notifiable;
 
     /**
      * The attributes that are mass assignable.
@@ -56,6 +58,18 @@ class User extends Authenticatable implements HasMedia
     protected static function newFactory(): UserFactory
     {
         return UserFactory::new();
+    }
+
+    public function registerMediaCollections(): void
+    {
+        $this->addMediaCollection(MediaCollectionType::AVATAR->value)
+            ->singleFile()
+            ->registerMediaConversions(function () {
+                $this->addMediaConversion('thumb')->width(254);
+            });
+
+        $this->addMediaCollection(MediaCollectionType::BANNER->value)
+            ->singleFile();
     }
 
     public function generateEmailVerificationCode(): string

@@ -28,7 +28,7 @@ class RegisterController extends Controller
         $accessToken = $user->createToken($request->header('user-agent', config('app.name')));
 
         return response([
-            'user' => new UserResource($user->load('accounts')),
+            'user' => new UserResource($user->load(['accounts', 'avatar', 'banner'])),
             'access_token' => $accessToken->plainTextToken,
         ]);
     }

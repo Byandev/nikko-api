@@ -14,7 +14,7 @@ class ProfileController extends Controller
      */
     public function index(Request $request)
     {
-        return UserResource::make($request->user()->loadMissing(['avatar', 'accounts']));
+        return UserResource::make($request->user()->loadMissing(['avatar', 'accounts', 'banner']));
     }
 
     /**
@@ -29,13 +29,16 @@ class ProfileController extends Controller
         if ($request->has('avatar')) {
             $avatarId = $request->input('avatar');
 
-            if (is_null($avatarId)) {
-                $user->removeAvatar();
-            } else {
-                $user->setAvatarByMediaId($avatarId);
-            }
+            is_null($avatarId) ? $user->removeAvatar() : $user->setAvatarByMediaId($avatarId);
+
         }
 
-        return UserResource::make($user->loadMissing(['avatar', 'accounts']));
+        if ($request->has('banner')) {
+            $bannerId = $request->input('banner');
+
+            is_null($bannerId) ? $user->removeBanner() : $user->setBannerByMediaId($bannerId);
+        }
+
+        return UserResource::make($user->loadMissing(['avatar', 'accounts', 'banner']));
     }
 }

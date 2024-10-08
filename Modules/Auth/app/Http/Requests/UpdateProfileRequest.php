@@ -15,6 +15,7 @@ class UpdateProfileRequest extends FormRequest
             'first_name' => 'sometimes',
             'last_name' => 'sometimes',
             'avatar' => 'nullable',
+            'banner' => 'nullable',
         ];
     }
 
