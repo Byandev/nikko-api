@@ -35,7 +35,7 @@ class EmailVerificationRequest extends FormRequest
                 $user = Auth::user();
                 $code = Cache::get("user:$user->id:email:verification:code");
 
-                if ($code !== $this->post('code')) {
+                if ($this->post('code') && $code !== $this->post('code')) {
                     $validator->errors()->add('code', 'Invalid code.');
                 }
             },
