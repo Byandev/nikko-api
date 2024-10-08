@@ -3,6 +3,7 @@
 namespace Modules\Auth\Tests\Feature;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\Notification;
 use Modules\Auth\Models\User;
 use Tests\TestCase;
 
@@ -13,6 +14,8 @@ class ForgotPasswordControllerTest extends TestCase
     public function test_user_can_forgot_password()
     {
         $user = User::factory()->create();
+
+        Notification::fake();
 
         $this->postJson(route('api.auth.forgot-password'), ['email' => $user->email])
             ->assertSuccessful()

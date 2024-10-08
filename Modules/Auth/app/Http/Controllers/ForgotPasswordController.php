@@ -7,6 +7,7 @@ use Illuminate\Support\Str;
 use Modules\Auth\Http\Requests\ForgotPasswordRequest;
 use Modules\Auth\Models\PasswordReset;
 use Modules\Auth\Models\User;
+use Modules\Auth\Notifications\ResetPasswordNotification;
 use Modules\Auth\Transformers\PasswordResetResource;
 
 class ForgotPasswordController extends Controller
@@ -22,6 +23,8 @@ class ForgotPasswordController extends Controller
             'token' => Str::random(),
             'expires_at' => now()->addMinutes(15),
         ]);
+
+        $user->notify(new ResetPasswordNotification($passwordReset->token));
 
         return PasswordResetResource::make($passwordReset);
     }
