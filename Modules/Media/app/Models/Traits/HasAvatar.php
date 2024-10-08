@@ -50,7 +50,6 @@ trait HasAvatar
 
     /**
      * Set the avatar using a provided media id.
-     * Media Id should belong to unasigned Type.
      */
     public function setAvatarByMediaId(int $mediaId)
     {

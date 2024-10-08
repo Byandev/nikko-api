@@ -17,6 +17,7 @@ class MediaResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
+            'id' => $this->id,
             'uuid' => $this->uuid,
             'name' => $this->name,
             'type' => $this->type,
@@ -37,6 +38,7 @@ class MediaResource extends JsonResource
             'original_url' => $this->original_url,
             'responsive_images' => $this->responsive_images,
             'humanReadableSize' => $this->humanReadableSize,
+            'thumb_url' => $this->resource->hasGeneratedConversion('thumb') ? $this->resource->getFullUrl('thumb') : $this->getFullUrl(),
         ];
     }
 }
