@@ -1,13 +1,13 @@
 <?php
 
-namespace Modules\Auth\Http\Requests;
+namespace Modules\Auth\Http\Requests\ResetPassword;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Validator;
 use Modules\Auth\Models\PasswordReset;
 use Modules\Auth\Models\User;
 
-class ResetPasswordRequest extends FormRequest
+class CheckResetPasswordRequest extends FormRequest
 {
     /**
      * Get the validation rules that apply to the request.
@@ -16,7 +16,6 @@ class ResetPasswordRequest extends FormRequest
     {
         return [
             'email' => 'required|email|exists:users',
-            'password' => 'required|min:8|confirmed',
             'token' => 'required|exists:password_resets',
         ];
     }
@@ -41,6 +40,7 @@ class ResetPasswordRequest extends FormRequest
         return [
             function (Validator $validator) {
                 $user = User::whereEmail($this->post('email'))->first();
+
                 $tokenIsValid = PasswordReset::where('user_id', $user->id)
                     ->where('token', $this->post('token'))
                     ->where('expires_at', '>', now())

@@ -29,8 +29,7 @@ class UpdateTest extends TestCase
         ];
 
         $this->putJson(route('api.auth.profile.update'), $data)
-            ->assertSuccessful()
-            ->dump();
+            ->assertSuccessful();
     }
 
     public function test_guess_cannot_get_profile()

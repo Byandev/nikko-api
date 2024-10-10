@@ -1,13 +1,13 @@
 <?php
 
-namespace Modules\Auth\Tests\Feature;
+namespace Modules\Auth\Tests\Feature\ResetPasswordController;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Modules\Auth\Models\PasswordReset;
 use Modules\Auth\Models\User;
 use Tests\TestCase;
 
-class ResetPasswordControllerTest extends TestCase
+class StoreTest extends TestCase
 {
     use RefreshDatabase;
 

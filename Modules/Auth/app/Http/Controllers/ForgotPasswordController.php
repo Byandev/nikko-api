@@ -20,7 +20,7 @@ class ForgotPasswordController extends Controller
 
         $passwordReset = PasswordReset::create([
             'user_id' => $user->id,
-            'token' => Str::random(),
+            'token' => Str::random(6),
             'expires_at' => now()->addMinutes(15),
         ]);
 

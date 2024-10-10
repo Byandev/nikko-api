@@ -20,7 +20,7 @@ class PasswordResetFactory extends Factory
     {
         return [
             'user_id' => fn () => User::factory()->create()->id,
-            'token' => fake()->bothify('########????????'),
+            'token' => fake()->bothify('######'),
             'expires_at' => now()->addMinutes(15),
         ];
     }
