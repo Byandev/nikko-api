@@ -3,6 +3,8 @@
 namespace Modules\Auth\Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Facades\Hash;
+use Modules\Auth\Models\User;
 
 class ChangeRequestFactory extends Factory
 {
@@ -16,6 +18,13 @@ class ChangeRequestFactory extends Factory
      */
     public function definition(): array
     {
-        return [];
+        return [
+            'changeable_id' => fn () => User::factory()->create()->id,
+            'changeable_type' => User::class,
+            'field_name' => 'email',
+            'from' => fake()->email(),
+            'to' => fake()->email(),
+            'token' => Hash::make('000000'),
+        ];
     }
 }

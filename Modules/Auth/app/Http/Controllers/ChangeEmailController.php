@@ -5,36 +5,51 @@ namespace Modules\Auth\Http\Controllers;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
 use Modules\Auth\Http\Requests\ChangeEmail\ChangeEmailRequest;
-use Modules\Auth\Http\Requests\ChangePasswordRequest;
-use Modules\Auth\Models\ChangeRequest;
+use Modules\Auth\Http\Requests\ChangeEmail\ChangeEmailVerifyRequest;
+use Modules\Auth\Models\User;
+use Modules\Auth\Notifications\ChangeEmailNotification;
+use Modules\Auth\Transformers\UserResource;
 
 class ChangeEmailController extends Controller
 {
     public function change(ChangeEmailRequest $request)
     {
-        $user = Auth::user();
+        $user = User::find(Auth::id());
 
-        ChangeRequest::create([
-            'from' => $user->email,
-            'to' => $request->post('email'),
-        ]);
+        $user->changedRequests()->updateOrCreate(
+            ['field_name' => 'email'],
+            [
+                'from' => $user->email,
+                'to' => $request->post('email'),
+                'token' => Hash::make($token = Str::random(6)),
+            ],
+        );
+
+        $user->notify(new ChangeEmailNotification($token));
 
         return response([
-            'message' => 'Your password has been changed.',
+            'message' => 'We send a verification code to your target email.',
         ]);
     }
 
-    public function verify(ChangePasswordRequest $request)
+    public function verify(ChangeEmailVerifyRequest $request)
     {
-        $user = Auth::user();
+        $request->validate([
+            'token' => 'required',
+        ]);
+
+        $user = User::find(Auth::id());
+
+        $changeRequest = $user->changedRequests()->where('field_name', 'email')->first();
 
         $user->update([
-            'password' => Hash::make($request->post('new_password')),
+            'email' => $changeRequest->to,
         ]);
 
-        return response([
-            'message' => 'Your password has been changed.',
-        ]);
+        $changeRequest->delete();
+
+        return UserResource::make($user->fresh()->load(['avatar', 'accounts', 'banner']));
     }
 }
