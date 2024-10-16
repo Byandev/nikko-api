@@ -11,6 +11,8 @@ use Modules\Auth\Http\Controllers\LogoutController;
 use Modules\Auth\Http\Controllers\ProfileController;
 use Modules\Auth\Http\Controllers\RegisterController;
 use Modules\Auth\Http\Controllers\ResetPasswordController;
+use Modules\Media\Http\Controllers\MediaController;
+use Modules\Skill\Http\Controllers\SkillController;
 
 /*
  *--------------------------------------------------------------------------
@@ -45,4 +47,9 @@ Route::name('auth.')->prefix('v1/auth')->group(function () {
 
         Route::put('/accounts/{account}', [AccountController::class, 'update'])->name('account.update');
     });
+});
+
+Route::middleware(['auth:sanctum'])->prefix('v1')->group(function () {
+    Route::get('skills', [SkillController::class, 'index'])->name('skills.index');
+    Route::apiResource('medias', MediaController::class)->names('medias')->only(['store', 'show', 'destroy']);
 });
