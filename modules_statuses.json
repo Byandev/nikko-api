@@ -1,4 +1,5 @@
 {
     "Auth": true,
-    "Media": true
+    "Media": true,
+    "Skill": true
 }

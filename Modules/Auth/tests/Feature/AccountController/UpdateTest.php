@@ -7,6 +7,8 @@ use Laravel\Sanctum\Sanctum;
 use Modules\Auth\Enums\LanguageProficiencyType;
 use Modules\Auth\Models\Account;
 use Modules\Auth\Models\User;
+use Modules\Auth\Models\WorkExperience;
+use Modules\Skill\Models\Skill;
 use Tests\TestCase;
 
 class UpdateTest extends TestCase
@@ -30,7 +32,7 @@ class UpdateTest extends TestCase
             ->assertJsonFragment($data);
     }
 
-    public function test_user_can_update_account_languages()
+    public function test_user_can_update_languages()
     {
         $user = User::factory()->create();
         $account = Account::factory()->create(['user_id' => $user->id]);
@@ -55,5 +57,43 @@ class UpdateTest extends TestCase
         $this->putJson(route('api.auth.account.update', ['account' => $account]), $data)
             ->assertSuccessful()
             ->assertJsonCount(count($languages), 'data.user.languages');
+    }
+
+    public function test_user_can_update_account_skills()
+    {
+        $user = User::factory()->create();
+        $account = Account::factory()->create(['user_id' => $user->id]);
+        $skills = Skill::factory()->count(fake()->numberBetween(5, 10))->create();
+
+        Sanctum::actingAs($user);
+
+        $count = fake()->numberBetween(2, $skills->count());
+
+        $data = [
+            'skills' => $skills->random($count)->map(fn ($skill) => $skill->id)->toArray(),
+        ];
+
+        $this->putJson(route('api.auth.account.update', ['account' => $account]), $data)
+            ->assertSuccessful()
+            ->assertJsonCount($count, 'data.skills');
+    }
+
+    public function test_user_can_update_account_work_experiences()
+    {
+        $user = User::factory()->create();
+        $account = Account::factory()->create(['user_id' => $user->id]);
+
+        Sanctum::actingAs($user);
+
+        $data = [
+            'work_experiences' => WorkExperience::factory()
+                ->count($count = fake()->numberBetween(2, 5))
+                ->make(['account_id' => $account->id]),
+        ];
+
+        $this->putJson(route('api.auth.account.update', ['account' => $account]), $data)
+            ->assertSuccessful()
+            ->assertJsonCount($count, 'data.work_experiences')
+            ->dump();
     }
 }
