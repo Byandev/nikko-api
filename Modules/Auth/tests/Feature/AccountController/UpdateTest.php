@@ -6,6 +6,7 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Laravel\Sanctum\Sanctum;
 use Modules\Auth\Enums\LanguageProficiencyType;
 use Modules\Auth\Models\Account;
+use Modules\Auth\Models\Education;
 use Modules\Auth\Models\User;
 use Modules\Auth\Models\WorkExperience;
 use Modules\Skill\Models\Skill;
@@ -93,7 +94,24 @@ class UpdateTest extends TestCase
 
         $this->putJson(route('api.auth.account.update', ['account' => $account]), $data)
             ->assertSuccessful()
-            ->assertJsonCount($count, 'data.work_experiences')
-            ->dump();
+            ->assertJsonCount($count, 'data.work_experiences');
+    }
+
+    public function test_user_can_update_account_educations()
+    {
+        $user = User::factory()->create();
+        $account = Account::factory()->create(['user_id' => $user->id]);
+
+        Sanctum::actingAs($user);
+
+        $data = [
+            'educations' => Education::factory()
+                ->count($count = fake()->numberBetween(2, 5))
+                ->make(['account_id' => $account->id]),
+        ];
+
+        $this->putJson(route('api.auth.account.update', ['account' => $account]), $data)
+            ->assertSuccessful()
+            ->assertJsonCount($count, 'data.educations');
     }
 }

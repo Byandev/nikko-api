@@ -31,7 +31,6 @@ class ProfileController extends Controller
             $avatarId = $request->input('avatar');
 
             is_null($avatarId) ? $user->removeAvatar() : $user->setAvatarByMediaId($avatarId);
-
         }
 
         if ($request->has('banner')) {

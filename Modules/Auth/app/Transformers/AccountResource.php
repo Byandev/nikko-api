@@ -27,6 +27,7 @@ class AccountResource extends JsonResource
 
             'user' => UserResource::make($this->whenLoaded('user')),
             'skills' => SkillResource::collection($this->whenLoaded('skills')),
+            'educations' => EducationResource::collection($this->whenLoaded('educations')),
             'work_experiences' => WorkExperienceResource::collection($this->whenLoaded('workExperiences')),
         ];
     }

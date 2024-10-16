@@ -33,12 +33,19 @@ class AccountController extends Controller
             $account->workExperiences()->createMany($request->validated('work_experiences'));
         }
 
+        if ($request->has('educations')) {
+            $account->educations()->delete();
+
+            $account->educations()->createMany($request->validated('educations'));
+        }
+
         if ($request->has('skills')) {
             $account->skills()->sync($request->post('skills', []));
         }
 
         return AccountResource::make($account->fresh()->load([
             'skills',
+            'educations',
             'workExperiences',
             'user' => ['languages'],
         ]));

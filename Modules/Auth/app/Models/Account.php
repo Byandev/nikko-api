@@ -41,4 +41,9 @@ class Account extends Model
     {
         return $this->hasMany(WorkExperience::class);
     }
+
+    public function educations(): HasMany
+    {
+        return $this->hasMany(Education::class);
+    }
 }
