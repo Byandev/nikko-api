@@ -18,9 +18,13 @@ class AccountResource extends JsonResource
     {
         return [
             'id' => $this->id,
+            'bio' => $this->bio,
             'type' => $this->type,
+            'title' => $this->title,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
+
+            'user' => UserResource::make($this->whenLoaded('user')),
         ];
     }
 }

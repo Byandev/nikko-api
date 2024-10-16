@@ -16,6 +16,12 @@ class UpdateProfileRequest extends FormRequest
             'last_name' => 'sometimes',
             'avatar' => 'nullable',
             'banner' => 'nullable',
+            'street_address' => 'sometimes|nullable',
+            'city' => 'sometimes|nullable',
+            'state_code' => 'sometimes|nullable',
+            'country_code' => 'sometimes|nullable',
+            'postal' => 'sometimes|nullable',
+            'phone_number' => 'sometimes|nullable',
         ];
     }
 

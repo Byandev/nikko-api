@@ -21,14 +21,12 @@ class UpdateTest extends TestCase
         Sanctum::actingAs($user);
 
         $media = Media::factory()->create();
+        $data = User::factory()->make()->toArray();
 
-        $data = [
-            'first_name' => fake()->firstName(),
-            'last_name' => fake()->firstName(),
+        $this->putJson(route('api.auth.profile.update'), [
+            ...$data,
             'avatar' => $media->id,
-        ];
-
-        $this->putJson(route('api.auth.profile.update'), $data)
+        ])
             ->assertSuccessful();
     }
 

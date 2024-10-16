@@ -26,13 +26,7 @@ class User extends Authenticatable implements HasMedia
      *
      * @var array<int, string>
      */
-    protected $fillable = [
-        'first_name',
-        'last_name',
-        'email',
-        'password',
-        'email_verified_at',
-    ];
+    protected $guarded = [];
 
     /**
      * The attributes that should be hidden for serialization.
@@ -96,5 +90,10 @@ class User extends Authenticatable implements HasMedia
     public function changedRequests(): MorphMany
     {
         return $this->morphMany(ChangeRequest::class, 'changeable');
+    }
+
+    public function languages(): HasMany
+    {
+        return $this->hasMany(Language::class);
     }
 }

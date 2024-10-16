@@ -4,6 +4,7 @@ namespace Modules\Auth\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Arr;
 use Modules\Auth\Http\Requests\UpdateProfileRequest;
 use Modules\Auth\Transformers\UserResource;
 
@@ -24,7 +25,7 @@ class ProfileController extends Controller
     {
         $user = $request->user();
 
-        $user->update($request->validated());
+        $user->update(Arr::except($request->validated(), ['avatar', 'banner']));
 
         if ($request->has('avatar')) {
             $avatarId = $request->input('avatar');

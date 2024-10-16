@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Modules\Auth\Http\Controllers\AccountController;
 use Modules\Auth\Http\Controllers\ChangeEmailController;
 use Modules\Auth\Http\Controllers\ChangePasswordController;
 use Modules\Auth\Http\Controllers\EmailVerificationController;
@@ -41,5 +42,7 @@ Route::name('auth.')->prefix('v1/auth')->group(function () {
         Route::post('/change-password', ChangePasswordController::class)->name('change-password');
         Route::post('email-verification/verify', [EmailVerificationController::class, 'verify'])->name('email-verification.verify');
         Route::post('email-verification/resend', [EmailVerificationController::class, 'resend'])->name('email-verification.resend');
+
+        Route::put('/account/{account}', [AccountController::class, 'update'])->name('account.update');
     });
 });
