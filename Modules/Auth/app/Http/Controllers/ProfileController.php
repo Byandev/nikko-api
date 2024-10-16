@@ -15,7 +15,18 @@ class ProfileController extends Controller
      */
     public function index(Request $request)
     {
-        return UserResource::make($request->user()->loadMissing(['avatar', 'accounts', 'banner']));
+        return UserResource::make(
+            $request->user()->load([
+                'avatar',
+                'banner',
+                'languages',
+                'accounts' => [
+                    'skills',
+                    'educations',
+                    'workExperiences',
+                ],
+            ])
+        );
     }
 
     /**
@@ -39,6 +50,17 @@ class ProfileController extends Controller
             is_null($bannerId) ? $user->removeBanner() : $user->setBannerByMediaId($bannerId);
         }
 
-        return UserResource::make($user->loadMissing(['avatar', 'accounts', 'banner']));
+        return UserResource::make(
+            $user->load([
+                'avatar',
+                'banner',
+                'languages',
+                'accounts' => [
+                    'skills',
+                    'educations',
+                    'workExperiences',
+                ],
+            ])
+        );
     }
 }

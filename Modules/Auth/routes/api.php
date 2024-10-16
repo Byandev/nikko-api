@@ -43,6 +43,6 @@ Route::name('auth.')->prefix('v1/auth')->group(function () {
         Route::post('email-verification/verify', [EmailVerificationController::class, 'verify'])->name('email-verification.verify');
         Route::post('email-verification/resend', [EmailVerificationController::class, 'resend'])->name('email-verification.resend');
 
-        Route::put('/account/{account}', [AccountController::class, 'update'])->name('account.update');
+        Route::put('/accounts/{account}', [AccountController::class, 'update'])->name('account.update');
     });
 });

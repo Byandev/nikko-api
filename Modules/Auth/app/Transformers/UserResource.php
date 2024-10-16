@@ -34,8 +34,8 @@ class UserResource extends JsonResource
 
             'avatar' => MediaResource::make($this->whenLoaded('avatar')),
             'banner' => MediaResource::make($this->whenLoaded('banner')),
-            'accounts' => AccountResource::collection($this->whenLoaded('accounts')),
             'languages' => LanguageResource::collection($this->whenLoaded('languages')),
+            'accounts' => AccountResource::collection($this->whenLoaded('accounts')),
         ];
     }
 }
