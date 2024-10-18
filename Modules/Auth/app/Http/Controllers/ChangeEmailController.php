@@ -23,7 +23,8 @@ class ChangeEmailController extends Controller
             [
                 'from' => $user->email,
                 'to' => $request->post('email'),
-                'token' => Hash::make($token = Str::random(6)),
+//                'token' => Hash::make($token = Str::random(6)),
+                'token' => Hash::make($token = '000000'),
             ],
         );
 

@@ -70,7 +70,7 @@ class User extends Authenticatable implements HasMedia
 
     public function generateEmailVerificationCode(): string
     {
-        $code = Str::random(6);
+        $code = '000000'; // Str::random(6);
 
         Cache::put("user:$this->id:email:verification:code", $code, now()->addMinutes(5));
 
