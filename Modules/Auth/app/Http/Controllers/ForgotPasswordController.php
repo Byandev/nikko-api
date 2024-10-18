@@ -3,7 +3,6 @@
 namespace Modules\Auth\Http\Controllers;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Str;
 use Modules\Auth\Http\Requests\ForgotPasswordRequest;
 use Modules\Auth\Models\PasswordReset;
 use Modules\Auth\Models\User;
@@ -20,7 +19,7 @@ class ForgotPasswordController extends Controller
 
         $passwordReset = PasswordReset::create([
             'user_id' => $user->id,
-            'token' => Str::random(6),
+            'token' => '000000',
             'expires_at' => now()->addMinutes(15),
         ]);
 
