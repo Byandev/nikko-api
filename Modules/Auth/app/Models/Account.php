@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Modules\Auth\Database\Factories\AccountFactory;
+use Modules\Portfolio\Models\Portfolio;
 use Modules\Skill\Models\Skill;
 
 // use Modules\Auth\Database\Factories\AccountFactory;
@@ -45,5 +46,10 @@ class Account extends Model
     public function educations(): HasMany
     {
         return $this->hasMany(Education::class);
+    }
+
+    public function portfolios(): HasMany
+    {
+        return $this->hasMany(Portfolio::class);
     }
 }

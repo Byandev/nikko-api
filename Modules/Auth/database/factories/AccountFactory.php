@@ -28,4 +28,28 @@ class AccountFactory extends Factory
             'bio' => fake()->paragraph(),
         ];
     }
+
+    /**
+     * Indicate that the account is freelancer
+     */
+    public function freelancer(): Factory
+    {
+        return $this->state(function (array $attributes) {
+            return [
+                'type' => AccountType::FREELANCER->value,
+            ];
+        });
+    }
+
+    /**
+     * Indicate that the account is client
+     */
+    public function client(): Factory
+    {
+        return $this->state(function (array $attributes) {
+            return [
+                'type' => AccountType::CLIENT->value,
+            ];
+        });
+    }
 }
