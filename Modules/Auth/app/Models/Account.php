@@ -8,10 +8,9 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Modules\Auth\Database\Factories\AccountFactory;
+use Modules\Certificate\Models\Certificate;
 use Modules\Portfolio\Models\Portfolio;
 use Modules\Skill\Models\Skill;
-
-// use Modules\Auth\Database\Factories\AccountFactory;
 
 class Account extends Model
 {
@@ -51,5 +50,10 @@ class Account extends Model
     public function portfolios(): HasMany
     {
         return $this->hasMany(Portfolio::class);
+    }
+
+    public function certificates(): HasMany
+    {
+        return $this->hasMany(Certificate::class);
     }
 }

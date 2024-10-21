@@ -17,7 +17,7 @@ class ChangePasswordControllerTest extends TestCase
 
         $this->postJson(route('api.auth.change-password'), [
             'old_password' => 'password',
-            'new_password' => $password = fake()->password(),
+            'new_password' => $password = fake()->password(8),
             'new_password_confirmation' => $password,
         ])
             ->assertSuccessful();

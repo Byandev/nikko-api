@@ -13,6 +13,7 @@ use Modules\Auth\Http\Controllers\ProfileController;
 use Modules\Auth\Http\Controllers\RegisterController;
 use Modules\Auth\Http\Controllers\ResetPasswordController;
 use Modules\Auth\Http\Middleware\AccountCheck;
+use Modules\Certificate\Http\Controllers\CertificateController;
 use Modules\Media\Http\Controllers\MediaController;
 use Modules\Portfolio\Http\Controllers\PortfolioController;
 use Modules\Skill\Http\Controllers\SkillController;
@@ -53,9 +54,14 @@ Route::name('auth.')->prefix('v1/auth')->group(function () {
 });
 
 Route::get('v1/accounts/{account}', [AccountController::class, 'show'])->name('account.show');
+
 Route::apiResource('v1/accounts/{account}/portfolios', PortfolioController::class)
     ->only(['index', 'show'])
     ->names('account.portfolios');
+
+Route::apiResource('v1/accounts/{account}/certificates', CertificateController::class)
+    ->only(['index', 'show'])
+    ->names('account.certificates');
 
 Route::middleware(['auth:sanctum'])->prefix('v1')->group(function () {
     Route::get('skills', [SkillController::class, 'index'])->name('skills.index');
@@ -65,4 +71,9 @@ Route::middleware(['auth:sanctum'])->prefix('v1')->group(function () {
         ->only(['store', 'update', 'destroy'])
         ->middleware(AccountCheck::class.':'.AccountType::FREELANCER->value)
         ->names('account.portfolios');
+
+    Route::apiResource('certificates', CertificateController::class)
+        ->only(['store', 'update', 'destroy'])
+        ->middleware(AccountCheck::class.':'.AccountType::FREELANCER->value)
+        ->names('account.certificates');
 });
