@@ -52,7 +52,7 @@ Route::name('auth.')->prefix('v1/auth')->group(function () {
     });
 });
 
-Route::apiResource('v1/accounts/{account}', [AccountController::class, 'show']);
+Route::get('v1/accounts/{account}', [AccountController::class, 'show']);
 Route::apiResource('v1/accounts/{account}/portfolios', PortfolioController::class)
     ->only(['index', 'show'])
     ->names('account.portfolios');
