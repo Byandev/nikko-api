@@ -41,7 +41,7 @@ class PortfolioController extends Controller
 
     public function show(Account $account, Portfolio $portfolio)
     {
-        return PortfolioResource::make($portfolio);
+        return PortfolioResource::make($portfolio->loadMissing('images'));
     }
 
     /**
