@@ -16,7 +16,11 @@ class PortfolioController extends Controller
 {
     public function index(Account $account)
     {
-        return PortfolioResource::collection($account->portfolios);
+        $data = Portfolio::with('images')
+            ->where('account_id', $account->id)
+            ->get();
+
+        return PortfolioResource::collection($data);
     }
 
     /**

@@ -19,7 +19,11 @@ class CertificateController extends Controller
      */
     public function index(Account $account)
     {
-        return CertificateResource::collection($account->certificates);
+        $data = Certificate::with('image')
+            ->where('account_id', $account->id)
+            ->get();
+
+        return CertificateResource::collection($data);
     }
 
     /**
