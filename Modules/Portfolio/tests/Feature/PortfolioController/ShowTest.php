@@ -1,6 +1,6 @@
 <?php
 
-namespace Modules\Auth\Tests\Feature\PortfolioController;
+namespace Modules\Portfolio\Tests\Feature\PortfolioController;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Modules\Portfolio\Models\Portfolio;

@@ -1,6 +1,6 @@
 <?php
 
-namespace Feature\MediaController;
+namespace Modules\Media\Tests\Feature\MediaController;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Laravel\Sanctum\Sanctum;
