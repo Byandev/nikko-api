@@ -10,6 +10,21 @@ use Modules\Auth\Transformers\AccountResource;
 
 class AccountController extends Controller
 {
+    public function show(Account $account)
+    {
+        return AccountResource::make($account->load([
+            'skills',
+            'educations',
+            'workExperiences',
+            'portfolios',
+            'user' => [
+                'avatar',
+                'banner',
+                'languages',
+            ],
+        ]));
+    }
+
     /**
      * Update the specified resource in storage.
      */
@@ -47,7 +62,11 @@ class AccountController extends Controller
             'skills',
             'educations',
             'workExperiences',
-            'user' => ['languages'],
+            'user' => [
+                'avatar',
+                'banner',
+                'languages',
+            ],
         ]));
     }
 }

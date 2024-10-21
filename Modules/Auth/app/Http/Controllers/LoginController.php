@@ -16,11 +16,7 @@ class LoginController extends Controller
                 'avatar',
                 'banner',
                 'languages',
-                'accounts' => [
-                    'skills',
-                    'educations',
-                    'workExperiences',
-                ],
+                'accounts',
             ])
             ->first();
 

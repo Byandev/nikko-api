@@ -24,6 +24,7 @@ class ProfileController extends Controller
                     'skills',
                     'educations',
                     'workExperiences',
+                    'portfolios',
                 ],
             ])
         );
