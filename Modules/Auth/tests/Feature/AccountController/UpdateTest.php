@@ -10,6 +10,7 @@ use Modules\Auth\Models\Education;
 use Modules\Auth\Models\User;
 use Modules\Auth\Models\WorkExperience;
 use Modules\Skill\Models\Skill;
+use Modules\Tool\Models\Tool;
 use Tests\TestCase;
 
 class UpdateTest extends TestCase
@@ -77,6 +78,25 @@ class UpdateTest extends TestCase
         $this->putJson(route('api.auth.account.update', ['account' => $account]), $data)
             ->assertSuccessful()
             ->assertJsonCount($count, 'data.skills');
+    }
+
+    public function test_user_can_update_account_tools()
+    {
+        $user = User::factory()->create();
+        $account = Account::factory()->create(['user_id' => $user->id]);
+        $tools = Tool::factory()->count(fake()->numberBetween(5, 10))->create();
+
+        Sanctum::actingAs($user);
+
+        $count = fake()->numberBetween(2, $tools->count());
+
+        $data = [
+            'tools' => $tools->random($count)->map(fn ($tool) => $tool->id)->toArray(),
+        ];
+
+        $this->putJson(route('api.auth.account.update', ['account' => $account]), $data)
+            ->assertSuccessful()
+            ->assertJsonCount($count, 'data.tools');
     }
 
     public function test_user_can_update_account_work_experiences()

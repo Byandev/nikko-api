@@ -3,5 +3,6 @@
     "Media": true,
     "Skill": true,
     "Portfolio": true,
-    "Certificate": true
+    "Certificate": true,
+    "Tool": true
 }

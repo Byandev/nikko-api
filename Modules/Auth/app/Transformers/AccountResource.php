@@ -7,6 +7,7 @@ use Illuminate\Http\Resources\Json\JsonResource;
 use Modules\Auth\Models\Account;
 use Modules\Portfolio\Transformers\PortfolioResource;
 use Modules\Skill\Transformers\SkillResource;
+use Modules\Tool\Transformers\ToolResource;
 
 /**
  * @mixin Account
@@ -27,6 +28,7 @@ class AccountResource extends JsonResource
             'updated_at' => $this->updated_at,
 
             'user' => UserResource::make($this->whenLoaded('user')),
+            'tools' => ToolResource::collection($this->whenLoaded('tools')),
             'skills' => SkillResource::collection($this->whenLoaded('skills')),
             'educations' => EducationResource::collection($this->whenLoaded('educations')),
             'portfolios' => PortfolioResource::collection($this->whenLoaded('portfolios')),

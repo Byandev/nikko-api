@@ -19,6 +19,7 @@ use Modules\Certificate\Http\Controllers\CertificateController;
 use Modules\Media\Http\Controllers\MediaController;
 use Modules\Portfolio\Http\Controllers\PortfolioController;
 use Modules\Skill\Http\Controllers\SkillController;
+use Modules\Tool\Http\Controllers\ToolController;
 
 /*
  *--------------------------------------------------------------------------
@@ -75,6 +76,8 @@ Route::apiResource('v1/accounts/{account}/educations', EducationController::clas
 
 Route::middleware(['auth:sanctum'])->prefix('v1')->group(function () {
     Route::get('skills', [SkillController::class, 'index'])->name('skills.index');
+    Route::get('tools', [ToolController::class, 'index'])->name('tools.index');
+
     Route::apiResource('medias', MediaController::class)->names('medias')->only(['store', 'show', 'destroy']);
 
     Route::apiResource('portfolios', PortfolioController::class)

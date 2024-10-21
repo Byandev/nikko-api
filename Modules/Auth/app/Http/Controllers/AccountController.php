@@ -14,6 +14,7 @@ class AccountController extends Controller
     {
         return AccountResource::make($account->load([
             'skills',
+            'tools',
             'educations',
             'workExperiences',
             'portfolios',
@@ -58,7 +59,12 @@ class AccountController extends Controller
             $account->skills()->sync($request->post('skills', []));
         }
 
+        if ($request->has('tools')) {
+            $account->tools()->sync($request->post('tools', []));
+        }
+
         return AccountResource::make($account->fresh()->load([
+            'tools',
             'skills',
             'educations',
             'workExperiences',

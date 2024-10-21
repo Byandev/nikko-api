@@ -11,6 +11,7 @@ use Modules\Auth\Database\Factories\AccountFactory;
 use Modules\Certificate\Models\Certificate;
 use Modules\Portfolio\Models\Portfolio;
 use Modules\Skill\Models\Skill;
+use Modules\Tool\Models\Tool;
 
 class Account extends Model
 {
@@ -35,6 +36,11 @@ class Account extends Model
     public function skills(): BelongsToMany
     {
         return $this->belongsToMany(Skill::class, 'account_skill');
+    }
+
+    public function tools(): BelongsToMany
+    {
+        return $this->belongsToMany(Tool::class, 'account_tool');
     }
 
     public function workExperiences(): HasMany

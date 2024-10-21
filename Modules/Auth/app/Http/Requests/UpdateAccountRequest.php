@@ -25,6 +25,9 @@ class UpdateAccountRequest extends FormRequest
             'skills' => 'sometimes|array',
             'skills.*' => 'required|exists:skills,id',
 
+            'tools' => 'sometimes|array',
+            'tools.*' => 'required|exists:tools,id',
+
             'work_experiences' => 'sometimes|array',
             'work_experiences.*.job_title' => 'required|string',
             'work_experiences.*.company' => 'required|string',
