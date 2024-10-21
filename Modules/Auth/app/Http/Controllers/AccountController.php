@@ -18,6 +18,7 @@ class AccountController extends Controller
             'educations',
             'workExperiences',
             'portfolios',
+            'certificates',
             'user' => [
                 'avatar',
                 'banner',
@@ -67,6 +68,7 @@ class AccountController extends Controller
             'tools',
             'skills',
             'educations',
+            'certificates',
             'workExperiences',
             'user' => [
                 'avatar',
