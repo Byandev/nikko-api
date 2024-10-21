@@ -5,6 +5,7 @@ namespace Modules\Auth\Transformers;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Modules\Auth\Models\Account;
+use Modules\Certificate\Transformers\CertificateResource;
 use Modules\Portfolio\Transformers\PortfolioResource;
 use Modules\Skill\Transformers\SkillResource;
 use Modules\Tool\Transformers\ToolResource;
@@ -32,6 +33,7 @@ class AccountResource extends JsonResource
             'skills' => SkillResource::collection($this->whenLoaded('skills')),
             'educations' => EducationResource::collection($this->whenLoaded('educations')),
             'portfolios' => PortfolioResource::collection($this->whenLoaded('portfolios')),
+            'certificates' => CertificateResource::collection($this->whenLoaded('certificates')),
             'work_experiences' => WorkExperienceResource::collection($this->whenLoaded('workExperiences')),
         ];
     }
