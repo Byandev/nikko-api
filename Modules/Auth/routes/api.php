@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use Modules\Auth\Enums\AccountType;
+use Modules\Auth\Http\Controllers\Account\EducationController;
 use Modules\Auth\Http\Controllers\Account\WorkExperienceController;
 use Modules\Auth\Http\Controllers\AccountController;
 use Modules\Auth\Http\Controllers\ChangeEmailController;
@@ -68,6 +69,10 @@ Route::apiResource('v1/accounts/{account}/work-experiences', WorkExperienceContr
     ->only(['index', 'show'])
     ->names('account.work-experiences');
 
+Route::apiResource('v1/accounts/{account}/educations', EducationController::class)
+    ->only(['index', 'show'])
+    ->names('account.educations');
+
 Route::middleware(['auth:sanctum'])->prefix('v1')->group(function () {
     Route::get('skills', [SkillController::class, 'index'])->name('skills.index');
     Route::apiResource('medias', MediaController::class)->names('medias')->only(['store', 'show', 'destroy']);
@@ -86,4 +91,9 @@ Route::middleware(['auth:sanctum'])->prefix('v1')->group(function () {
         ->only(['store', 'update', 'destroy'])
         ->middleware(AccountCheck::class.':'.AccountType::FREELANCER->value)
         ->names('account.work-experiences');
+
+    Route::apiResource('educations', EducationController::class)
+        ->only(['store', 'update', 'destroy'])
+        ->middleware(AccountCheck::class.':'.AccountType::FREELANCER->value)
+        ->names('account.educations');
 });
