@@ -22,9 +22,11 @@ class ProfileController extends Controller
                 'languages',
                 'accounts' => [
                     'skills',
+                    'tools',
                     'educations',
                     'workExperiences',
                     'portfolios',
+                    'certificates',
                 ],
             ])
         );
