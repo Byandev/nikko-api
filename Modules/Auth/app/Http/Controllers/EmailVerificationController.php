@@ -31,6 +31,18 @@ class EmailVerificationController extends Controller
 
         $user->update(['email_verified_at' => now()]);
 
-        return UserResource::make($user->fresh()->loadMissing(['avatar', 'accounts', 'banner']));
+        return UserResource::make($user->fresh()->loadMissing([
+            'avatar',
+            'banner',
+            'languages',
+            'accounts' => [
+                'skills',
+                'tools',
+                'educations',
+                'workExperiences',
+                'portfolios',
+                'certificates',
+            ],
+        ]));
     }
 }

@@ -23,7 +23,7 @@ class ChangeEmailController extends Controller
             [
                 'from' => $user->email,
                 'to' => $request->post('email'),
-//                'token' => Hash::make($token = Str::random(6)),
+                //                'token' => Hash::make($token = Str::random(6)),
                 'token' => Hash::make($token = '000000'),
             ],
         );
@@ -51,6 +51,18 @@ class ChangeEmailController extends Controller
 
         $changeRequest->delete();
 
-        return UserResource::make($user->fresh()->load(['avatar', 'accounts', 'banner']));
+        return UserResource::make($user->fresh()->load([
+            'avatar',
+            'banner',
+            'languages',
+            'accounts' => [
+                'skills',
+                'tools',
+                'educations',
+                'workExperiences',
+                'portfolios',
+                'certificates',
+            ],
+        ]));
     }
 }
