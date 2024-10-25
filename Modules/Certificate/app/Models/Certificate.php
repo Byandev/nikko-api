@@ -44,4 +44,13 @@ class Certificate extends Model implements HasMedia
     {
         return $this->belongsTo(Account::class);
     }
+
+    public function registerMediaCollections(): void
+    {
+        $this->addMediaCollection(MediaCollectionType::CERTIFICATE_IMAGE->value)
+            ->singleFile()
+            ->registerMediaConversions(function () {
+                $this->addMediaConversion('thumb')->width(254);
+            });
+    }
 }

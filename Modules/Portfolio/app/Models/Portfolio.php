@@ -43,4 +43,12 @@ class Portfolio extends Model implements HasMedia
     {
         return $this->belongsTo(Account::class);
     }
+
+    public function registerMediaCollections(): void
+    {
+        $this->addMediaCollection(MediaCollectionType::PORTFOLIO_IMAGES->value)
+            ->registerMediaConversions(function () {
+                $this->addMediaConversion('thumb')->width(254);
+            });
+    }
 }
