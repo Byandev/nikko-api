@@ -18,7 +18,7 @@ class AccountCheck
         $accountId = $request->header('X-ACCOUNT-ID');
 
         if (! $accountId) {
-            return response(['message' => 'Forbidden'], 403);
+            return response(['message' => 'Forbidden', 'details' => 'No Account ID'], 403);
         }
 
         $account = Account::where('id', $accountId)
@@ -27,7 +27,7 @@ class AccountCheck
             ->first();
 
         if (! $account) {
-            return response(['message' => 'Forbidden'], 403);
+            return response(['message' => 'Forbidden', 'details' => 'Not a freelancer account.'], 403);
         }
 
         $request->merge(['account' => $account]);
