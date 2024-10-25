@@ -32,6 +32,6 @@ class LoginController extends Controller
         return response([
             'user' => new UserResource($user),
             'access_token' => $accessToken->plainTextToken,
-        ]);
+        ])->header('Authorization', $accessToken->plainTextToken);
     }
 }

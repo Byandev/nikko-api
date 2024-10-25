@@ -42,6 +42,6 @@ class RegisterController extends Controller
                 ],
             ])),
             'access_token' => $accessToken->plainTextToken,
-        ]);
+        ])->header('Authorization', $accessToken->plainTextToken);
     }
 }
