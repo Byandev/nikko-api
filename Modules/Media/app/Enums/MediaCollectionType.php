@@ -10,4 +10,6 @@ enum MediaCollectionType: string
 
     case PORTFOLIO_IMAGES = 'PORTFOLIO_IMAGES';
     case CERTIFICATE_IMAGE = 'CERTIFICATE_IMAGE';
+
+    case PROJECT_IMAGES = 'PROJECT_IMAGES';
 }

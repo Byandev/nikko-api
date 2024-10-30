@@ -5,6 +5,8 @@ namespace Modules\Project\Http\Controllers\Client;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
+use Modules\Media\Enums\MediaCollectionType;
+use Modules\Media\Models\Media;
 use Modules\Project\Http\Requests\CreateProjectRequest;
 use Modules\Project\Models\Project;
 use Modules\Project\Transformers\ProjectResource;
@@ -44,7 +46,13 @@ class ProjectController extends Controller
 
         $project->languages()->createMany($request->post('languages'));
 
-        return ProjectResource::make($project->load(['languages', 'skills']));
+        Media::whereIn('id', $request->post('images'))
+            ->get()
+            ->each(function (Media $media) use ($project) {
+                $media->move($project, MediaCollectionType::PROJECT_IMAGES->value);
+            });
+
+        return ProjectResource::make($project->load(['languages', 'skills', 'images']));
     }
 
     /**

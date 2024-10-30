@@ -4,6 +4,7 @@ namespace Modules\Project\Transformers;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Modules\Media\Transformers\MediaResource;
 use Modules\Project\Models\Project;
 use Modules\Skill\Transformers\SkillResource;
 
@@ -30,6 +31,7 @@ class ProjectResource extends JsonResource
 
             'languages' => ProjectLanguageResource::collection($this->whenLoaded('languages')),
             'skills' => SkillResource::collection($this->whenLoaded('skills')),
+            'images' => MediaResource::collection($this->whenLoaded('images')),
         ];
     }
 }

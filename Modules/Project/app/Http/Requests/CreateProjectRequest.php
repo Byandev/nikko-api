@@ -38,6 +38,9 @@ class CreateProjectRequest extends FormRequest
 
             'skills' => 'required|array|min:1',
             'skills.*' => 'required|exists:skills,id',
+
+            'images' => 'required|array',
+            'images.*' => 'required|numeric|exists:media,id',
         ];
     }
 
