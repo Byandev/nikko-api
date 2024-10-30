@@ -19,7 +19,9 @@ class ProjectController extends Controller
      */
     public function index(Request $request)
     {
-        $data = Project::where('account_id', $request->account->id)->paginate($request->per_page ?? 10);
+        $data = Project::where('account_id', $request->account->id)
+            ->with(['images', 'skills', 'languages'])
+            ->paginate($request->per_page ?? 10);
 
         return ProjectResource::collection($data);
 
