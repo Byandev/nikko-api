@@ -8,6 +8,7 @@ use Illuminate\Support\Arr;
 use Modules\Media\Enums\MediaCollectionType;
 use Modules\Media\Models\Media;
 use Modules\Project\Http\Requests\CreateProjectRequest;
+use Modules\Project\Http\Requests\UpdateProjectRequest;
 use Modules\Project\Models\Project;
 use Modules\Project\Transformers\ProjectResource;
 
@@ -58,21 +59,65 @@ class ProjectController extends Controller
     /**
      * Show the specified resource.
      */
-    public function show($id) {}
+    public function show(Project $project)
+    {
+        return ProjectResource::make($project->load(['languages', 'skills', 'images']));
+    }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, $id)
+    public function update(UpdateProjectRequest $request, Project $project)
     {
-        //
+        $project->update(Arr::only($request->validated(), [
+            'title',
+            'description',
+            'estimated_budget',
+            'length',
+            'experience_level',
+        ]));
+
+        if ($request->has('languages')) {
+            $project->languages()->delete();
+
+            $project->languages()->createMany($request->post('languages'));
+        }
+
+        if ($request->has('skills')) {
+            $project->skills()->sync($request->post('skills', []));
+        }
+
+        if ($request->has('images')) {
+            $medias = Media::whereIn('id', $request->post('images', []))
+                ->get();
+
+            $updatedImageIds = $medias
+                ->filter(fn (Media $media) => $media->collection_name === MediaCollectionType::PROJECT_IMAGES->value)
+                ->map(fn (Media $media) => $media->id)
+                ->toArray();
+
+            $medias->filter(fn (Media $media) => $media->collection_name !== MediaCollectionType::PROJECT_IMAGES->value)
+                ->each(function (Media $media) use (&$updatedImageIds, $project) {
+                    $media = $media->move($project, MediaCollectionType::PORTFOLIO_IMAGES->value);
+                    $updatedImageIds[] = $media->fresh()->id;
+                });
+
+            Media::whereNotIn('id', $updatedImageIds)
+                ->where('model_id', $project->id)
+                ->where('model_type', get_class($project))
+                ->delete();
+        }
+
+        return ProjectResource::make($project->fresh()->load(['languages', 'skills', 'images']));
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy($id)
+    public function destroy(Project $project)
     {
-        //
+        $project->delete();
+
+        return response(['message' => 'Deleted successfully']);
     }
 }
