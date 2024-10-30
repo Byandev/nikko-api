@@ -4,5 +4,6 @@
     "Skill": true,
     "Portfolio": true,
     "Certificate": true,
-    "Tool": true
+    "Tool": true,
+    "Project": true
 }

@@ -18,6 +18,7 @@ use Modules\Auth\Http\Middleware\AccountCheck;
 use Modules\Certificate\Http\Controllers\CertificateController;
 use Modules\Media\Http\Controllers\MediaController;
 use Modules\Portfolio\Http\Controllers\PortfolioController;
+use Modules\Project\Http\Controllers\Client\ProjectController;
 use Modules\Skill\Http\Controllers\SkillController;
 use Modules\Tool\Http\Controllers\ToolController;
 
@@ -99,4 +100,8 @@ Route::middleware(['auth:sanctum'])->prefix('v1')->group(function () {
         ->only(['store', 'update', 'destroy'])
         ->middleware(AccountCheck::class.':'.AccountType::FREELANCER->value)
         ->names('account.educations');
+
+    Route::group(['prefix' => 'client', 'middleware' => [AccountCheck::class.':'.AccountType::CLIENT->value]], function () {
+        Route::apiResource('projects', ProjectController::class)->names('client.projects');
+    });
 });
