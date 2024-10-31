@@ -11,6 +11,7 @@ use Modules\Project\Http\Requests\CreateProjectRequest;
 use Modules\Project\Http\Requests\UpdateProjectRequest;
 use Modules\Project\Models\Project;
 use Modules\Project\Transformers\ProjectResource;
+use Spatie\QueryBuilder\QueryBuilder;
 
 class ProjectController extends Controller
 {
@@ -19,12 +20,13 @@ class ProjectController extends Controller
      */
     public function index(Request $request)
     {
-        $data = Project::where('account_id', $request->account->id)
+        $data = QueryBuilder::for(Project::class)
+            ->allowedFilters(['status'])
+            ->where('account_id', $request->account->id)
             ->with(['images', 'skills', 'languages'])
             ->paginate($request->per_page ?? 10);
 
         return ProjectResource::collection($data);
-
     }
 
     /**
@@ -41,6 +43,7 @@ class ProjectController extends Controller
                     'estimated_budget',
                     'length',
                     'experience_level',
+                    'status',
                 ]),
             ]
         );
@@ -76,6 +79,7 @@ class ProjectController extends Controller
             'description',
             'estimated_budget',
             'length',
+            'status',
             'experience_level',
         ]));
 

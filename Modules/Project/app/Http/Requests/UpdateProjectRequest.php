@@ -6,6 +6,7 @@ use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 use Modules\Project\Enums\ExperienceLevel;
 use Modules\Project\Enums\ProjectLength;
+use Modules\Project\Enums\ProjectStatus;
 
 class UpdateProjectRequest extends FormRequest
 {
@@ -18,6 +19,14 @@ class UpdateProjectRequest extends FormRequest
             'title' => 'sometimes|string|required|max:255',
             'description' => 'sometimes|string|required',
             'estimated_budget' => 'sometimes|required|numeric',
+            'status' => [
+                'sometimes',
+                'required',
+                Rule::in(
+                    ProjectStatus::DRAFT->value,
+                    ProjectStatus::ACTIVE->value
+                ),
+            ],
             'length' => [
                 'sometimes',
                 'required',

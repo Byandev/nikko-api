@@ -28,6 +28,7 @@ class Project extends Model implements HasMedia
         'estimated_budget',
         'length',
         'experience_level',
+        'status',
     ];
 
     protected static function newFactory(): ProjectFactory

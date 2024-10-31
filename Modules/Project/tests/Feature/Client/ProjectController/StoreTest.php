@@ -5,6 +5,7 @@ namespace Modules\Project\Tests\Feature\Client\ProjectController;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Laravel\Sanctum\Sanctum;
 use Modules\Auth\Models\Account;
+use Modules\Media\Models\Media;
 use Modules\Project\Models\Project;
 use Modules\Skill\Models\Skill;
 use Tests\TestCase;
@@ -34,6 +35,11 @@ class StoreTest extends TestCase
             ->toArray();
 
         $data['skills'] = $skills->random($skillsCount)->map(fn ($skill) => $skill->id)->toArray();
+
+        $data['images'] = Media::factory()
+            ->count(fake()->numberBetween(2, 5))
+            ->create()->map(fn (Media $media) => $media->id)
+            ->toArray();
 
         Sanctum::actingAs($account->user);
 
