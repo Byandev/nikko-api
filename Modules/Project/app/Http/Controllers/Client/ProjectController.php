@@ -104,7 +104,7 @@ class ProjectController extends Controller
 
             $medias->filter(fn (Media $media) => $media->collection_name !== MediaCollectionType::PROJECT_IMAGES->value)
                 ->each(function (Media $media) use (&$updatedImageIds, $project) {
-                    $media = $media->move($project, MediaCollectionType::PORTFOLIO_IMAGES->value);
+                    $media = $media->move($project, MediaCollectionType::PROJECT_IMAGES->value);
                     $updatedImageIds[] = $media->fresh()->id;
                 });
 
