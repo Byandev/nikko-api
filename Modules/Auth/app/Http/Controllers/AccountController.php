@@ -3,6 +3,7 @@
 namespace Modules\Auth\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 use Modules\Auth\Http\Requests\UpdateAccountRequest;
@@ -16,9 +17,17 @@ class AccountController extends Controller
     public function index(Request $request)
     {
         $data = QueryBuilder::for(Account::class)
+            ->when($request->account, function (Builder $query) use ($request) {
+                $query->appendIsSavedBy($request->account);
+            })
             ->allowedFilters([
                 AllowedFilter::exact('type'),
                 AllowedFilter::scope('search'),
+                AllowedFilter::callback('is_saved', function (Builder $query) use ($request) {
+                    $query->when($request->account, function (Builder $query) use ($request) {
+                        $query->onlySavedBy($request->account);
+                    });
+                }),
             ])
             ->allowedIncludes([
                 'user',

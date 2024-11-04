@@ -1,0 +1,11 @@
+{
+    "name": "Save",
+    "alias": "save",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\Save\\Providers\\SaveServiceProvider"
+    ],
+    "files": []
+}

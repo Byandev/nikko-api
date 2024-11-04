@@ -28,6 +28,8 @@ class AccountResource extends JsonResource
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
 
+            'is_saved' => $this->is_saved ?? false,
+
             'user' => UserResource::make($this->whenLoaded('user')),
             'tools' => ToolResource::collection($this->whenLoaded('tools')),
             'skills' => SkillResource::collection($this->whenLoaded('skills')),

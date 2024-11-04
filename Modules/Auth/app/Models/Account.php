@@ -11,11 +11,13 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Modules\Auth\Database\Factories\AccountFactory;
 use Modules\Certificate\Models\Certificate;
 use Modules\Portfolio\Models\Portfolio;
+use Modules\Save\Models\Traits\CanBeSaved;
 use Modules\Skill\Models\Skill;
 use Modules\Tool\Models\Tool;
 
 class Account extends Model
 {
+    use CanBeSaved;
     use HasFactory;
 
     protected $fillable = [

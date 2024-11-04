@@ -14,7 +14,9 @@ use Modules\Auth\Http\Controllers\LogoutController;
 use Modules\Auth\Http\Controllers\ProfileController;
 use Modules\Auth\Http\Controllers\RegisterController;
 use Modules\Auth\Http\Controllers\ResetPasswordController;
+use Modules\Auth\Http\Controllers\SaveAccountController;
 use Modules\Auth\Http\Middleware\AccountCheck;
+use Modules\Auth\Http\Middleware\OptionalAccountCheck;
 use Modules\Certificate\Http\Controllers\CertificateController;
 use Modules\Media\Http\Controllers\MediaController;
 use Modules\Portfolio\Http\Controllers\PortfolioController;
@@ -57,8 +59,13 @@ Route::name('auth.')->prefix('v1/auth')->group(function () {
     });
 });
 
-Route::get('v1/accounts', [AccountController::class, 'index'])->name('account.index');
-Route::get('v1/accounts/{account}', [AccountController::class, 'show'])->name('account.show');
+Route::get('v1/accounts', [AccountController::class, 'index'])
+    ->name('account.index')
+    ->middleware(OptionalAccountCheck::class.':'.AccountType::CLIENT->value);
+
+Route::get('v1/accounts/{account}', [AccountController::class, 'show'])
+    ->name('account.show')
+    ->middleware(OptionalAccountCheck::class.':'.AccountType::CLIENT->value);
 
 Route::apiResource('v1/accounts/{account}/portfolios', PortfolioController::class)
     ->only(['index', 'show'])
@@ -79,6 +86,14 @@ Route::apiResource('v1/accounts/{account}/educations', EducationController::clas
 Route::middleware(['auth:sanctum'])->prefix('v1')->group(function () {
     Route::get('skills', [SkillController::class, 'index'])->name('skills.index');
     Route::get('tools', [ToolController::class, 'index'])->name('tools.index');
+
+    Route::post('/accounts/{account}/save', [SaveAccountController::class, 'store'])
+        ->middleware(AccountCheck::class.':'.AccountType::CLIENT->value)
+        ->name('account.save');
+
+    Route::delete('/accounts/{account}/un-save', [SaveAccountController::class, 'destroy'])
+        ->middleware(AccountCheck::class.':'.AccountType::CLIENT->value)
+        ->name('account.un-save');
 
     Route::apiResource('medias', MediaController::class)->names('medias')->only(['store', 'show', 'destroy']);
 
