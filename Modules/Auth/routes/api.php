@@ -57,6 +57,7 @@ Route::name('auth.')->prefix('v1/auth')->group(function () {
     });
 });
 
+Route::get('v1/accounts', [AccountController::class, 'index'])->name('account.index');
 Route::get('v1/accounts/{account}', [AccountController::class, 'show'])->name('account.show');
 
 Route::apiResource('v1/accounts/{account}/portfolios', PortfolioController::class)

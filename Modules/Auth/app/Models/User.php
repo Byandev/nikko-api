@@ -2,6 +2,7 @@
 
 namespace Modules\Auth\Models;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
@@ -95,5 +96,15 @@ class User extends Authenticatable implements HasMedia
     public function languages(): HasMany
     {
         return $this->hasMany(Language::class);
+    }
+
+    public function scopeSearch(Builder $builder, string $search)
+    {
+        $builder->where(function (Builder $query) use ($search) {
+            $query->orWhere('email', 'LIKE', "%$search%")
+                ->orWhere('first_name', 'LIKE', "%$search%")
+                ->orWhere('last_name', 'LIKE', "%$search%")
+                ->orWhere('phone_number', 'LIKE', "%$search%");
+        });
     }
 }

@@ -46,6 +46,5 @@ class StoreTest extends TestCase
         $this->postJson(route('api.client.projects.store'), $data, [
             'X-ACCOUNT-ID' => $account->id,
         ])->assertSuccessful();
-
     }
 }

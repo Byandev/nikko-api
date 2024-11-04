@@ -2,6 +2,7 @@
 
 namespace Modules\Auth\Models;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -61,5 +62,14 @@ class Account extends Model
     public function certificates(): HasMany
     {
         return $this->hasMany(Certificate::class);
+    }
+
+    public function scopeSearch(Builder $builder, string $search)
+    {
+        $builder->where(function (Builder $query) use ($search) {
+            $query->where('title', 'LIKE', "%$search%")
+                ->orWhere('bio', 'LIKE', "%$search%")
+                ->orWhereHas('user', fn (Builder $subQuery) => $subQuery->search($search));
+        });
     }
 }

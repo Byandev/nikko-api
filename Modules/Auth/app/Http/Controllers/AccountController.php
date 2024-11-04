@@ -3,13 +3,39 @@
 namespace Modules\Auth\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 use Modules\Auth\Http\Requests\UpdateAccountRequest;
 use Modules\Auth\Models\Account;
 use Modules\Auth\Transformers\AccountResource;
+use Spatie\QueryBuilder\AllowedFilter;
+use Spatie\QueryBuilder\QueryBuilder;
 
 class AccountController extends Controller
 {
+    public function index(Request $request)
+    {
+        $data = QueryBuilder::for(Account::class)
+            ->allowedFilters([
+                AllowedFilter::exact('type'),
+                AllowedFilter::scope('search'),
+            ])
+            ->allowedIncludes([
+                'user',
+                'user.avatar',
+                'user.languages',
+                'skills',
+                'tools',
+                'workExperiences',
+                'educations',
+                'portfolios',
+                'certificates',
+            ])
+            ->paginate();
+
+        return AccountResource::collection($data);
+    }
+
     public function show(Account $account)
     {
         return AccountResource::make($account->load([
