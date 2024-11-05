@@ -107,4 +107,11 @@ class User extends Authenticatable implements HasMedia
                 ->orWhere('phone_number', 'LIKE', "%$search%");
         });
     }
+
+    public function scopeCountries(Builder $builder, ...$countries)
+    {
+        $builder->when(count($countries), function (Builder $query) use ($countries) {
+            $query->whereIn('country_code', $countries);
+        });
+    }
 }

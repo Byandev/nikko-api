@@ -74,4 +74,20 @@ class Account extends Model
                 ->orWhereHas('user', fn (Builder $subQuery) => $subQuery->search($search));
         });
     }
+
+    public function scopeHasSkills(Builder $builder, ...$skillIds)
+    {
+        $builder->when(count($skillIds), function (Builder $query) use ($skillIds) {
+            $query->whereHas('skills', function (Builder $subQuery) use ($skillIds) {
+                $subQuery->whereIn('id', $skillIds);
+            });
+        });
+    }
+
+    public function scopeUserCountries(Builder $builder, ...$countries)
+    {
+        $builder->whereHas('user', function (Builder $query) use ($countries) {
+            $query->whereIn('country_code', $countries);
+        });
+    }
 }

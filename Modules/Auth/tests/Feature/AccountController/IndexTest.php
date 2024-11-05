@@ -6,7 +6,9 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Laravel\Sanctum\Sanctum;
 use Modules\Auth\Enums\AccountType;
 use Modules\Auth\Models\Account;
+use Modules\Auth\Models\User;
 use Modules\Save\Models\Save;
+use Modules\Skill\Models\Skill;
 use Tests\TestCase;
 
 class IndexTest extends TestCase
@@ -39,6 +41,55 @@ class IndexTest extends TestCase
 
         $this->getJson(route('api.account.index', [
             'filter[type]' => $filter,
+        ]))
+            ->assertSuccessful()
+            ->assertJsonFragment(['total' => $filteredCount]);
+    }
+
+    public function test_user_can_get_list_of_accounts_filtered_by_skills()
+    {
+        $skills = Skill::factory()->count(fake()->numberBetween(1, 5))->create();
+
+        $skillIds = $skills->map(fn ($skill) => $skill->id)->toArray();
+
+        Account::factory()
+            ->count($filteredCount = fake()->numberBetween(2, 5))
+            ->create()
+            ->each(function (Account $account) use ($skillIds) {
+                return $account->skills()->sync($skillIds);
+            });
+
+        Account::factory()
+            ->count(fake()->numberBetween(2, 5))
+            ->create();
+
+        $this->getJson(route('api.account.index', [
+            'filter[has_skills]' => implode(',', $skillIds),
+        ]))
+            ->assertSuccessful()
+            ->assertJsonFragment(['total' => $filteredCount]);
+    }
+
+    public function test_user_can_get_list_of_accounts_filtered_by_user_countries()
+    {
+        $countries = [
+            fake()->countryCode(),
+            fake()->countryCode(),
+        ];
+
+        User::factory()
+            ->count($filteredCount = fake()->numberBetween(2, 5))
+            ->create(['country_code' => fake()->randomElement($countries)])
+            ->each(function (User $user) {
+                Account::factory()->create(['user_id' => $user->id]);
+            });
+
+        Account::factory()
+            ->count(fake()->numberBetween(2, 5))
+            ->create();
+
+        $this->getJson(route('api.account.index', [
+            'filter[user_countries]' => implode(',', $countries),
         ]))
             ->assertSuccessful()
             ->assertJsonFragment(['total' => $filteredCount]);
@@ -100,7 +151,7 @@ class IndexTest extends TestCase
     {
         $client = Account::factory()->client()->create();
 
-        Sanctum::actingAs($client->user);
+        $accessToken = $client->user->createToken(config('app.name'));
 
         $savedAccounts = Account::factory()
             ->freelancer()
@@ -126,6 +177,7 @@ class IndexTest extends TestCase
             'filter[is_saved]' => true,
         ]), [
             'X-ACCOUNT-ID' => $client->id,
+            'Authorization' => "Bearer {$accessToken->plainTextToken}",
         ])
             ->assertSuccessful()
             ->assertJsonFragment(['total' => $savedAccountsCount])
