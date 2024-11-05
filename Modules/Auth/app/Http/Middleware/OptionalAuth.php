@@ -17,7 +17,9 @@ class OptionalAuth
 
         // Set the user if authentication was successful
         if ($user) {
-            $request->setUserResolver(fn () => $user);
+            Auth::setUser(
+                Auth::guard('sanctum')->user()
+            );
         }
 
         return $next($request);
