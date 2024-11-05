@@ -17,6 +17,7 @@ use Modules\Auth\Http\Controllers\ResetPasswordController;
 use Modules\Auth\Http\Controllers\SaveAccountController;
 use Modules\Auth\Http\Middleware\AccountCheck;
 use Modules\Auth\Http\Middleware\OptionalAccountCheck;
+use Modules\Auth\Http\Middleware\OptionalAuth;
 use Modules\Certificate\Http\Controllers\CertificateController;
 use Modules\Media\Http\Controllers\MediaController;
 use Modules\Portfolio\Http\Controllers\PortfolioController;
@@ -61,11 +62,17 @@ Route::name('auth.')->prefix('v1/auth')->group(function () {
 
 Route::get('v1/accounts', [AccountController::class, 'index'])
     ->name('account.index')
-    ->middleware(OptionalAccountCheck::class.':'.AccountType::CLIENT->value);
+    ->middleware([
+        OptionalAuth::class,
+        OptionalAccountCheck::class.':'.AccountType::CLIENT->value,
+    ]);
 
 Route::get('v1/accounts/{account}', [AccountController::class, 'show'])
     ->name('account.show')
-    ->middleware(OptionalAccountCheck::class.':'.AccountType::CLIENT->value);
+    ->middleware([
+        OptionalAuth::class,
+        OptionalAccountCheck::class.':'.AccountType::CLIENT->value,
+    ]);
 
 Route::apiResource('v1/accounts/{account}/portfolios', PortfolioController::class)
     ->only(['index', 'show'])
