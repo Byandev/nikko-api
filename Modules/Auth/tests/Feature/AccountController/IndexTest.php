@@ -64,7 +64,7 @@ class IndexTest extends TestCase
             ->create();
 
         $this->getJson(route('api.account.index', [
-            'filter[has_skills]' => implode(',', $skillIds),
+            'filter[skills]' => implode(',', $skillIds),
         ]))
             ->assertSuccessful()
             ->assertJsonFragment(['total' => $filteredCount]);

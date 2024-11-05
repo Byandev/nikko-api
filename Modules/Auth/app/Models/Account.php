@@ -75,7 +75,7 @@ class Account extends Model
         });
     }
 
-    public function scopeHasSkills(Builder $builder, ...$skillIds)
+    public function scopeSkills(Builder $builder, ...$skillIds)
     {
         $builder->when(count($skillIds), function (Builder $query) use ($skillIds) {
             $query->whereHas('skills', function (Builder $subQuery) use ($skillIds) {

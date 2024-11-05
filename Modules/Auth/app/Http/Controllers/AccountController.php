@@ -23,7 +23,7 @@ class AccountController extends Controller
             ->allowedFilters([
                 AllowedFilter::exact('type'),
                 AllowedFilter::scope('search'),
-                AllowedFilter::scope('has_skills'),
+                AllowedFilter::scope('skills'),
                 AllowedFilter::scope('user_countries'),
                 AllowedFilter::callback('is_saved', function (Builder $query) use ($request) {
                     $query->when($request->account, function (Builder $query) use ($request) {
