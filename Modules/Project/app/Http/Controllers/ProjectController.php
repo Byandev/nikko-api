@@ -25,6 +25,7 @@ class ProjectController extends Controller
             })
             ->allowedIncludes(['account', 'account.user', 'account.user.avatar'])
             ->allowedFilters([
+                AllowedFilter::exact('status'),
                 AllowedFilter::exact('length'),
                 AllowedFilter::exact('experience_level'),
                 AllowedFilter::scope('search'),
