@@ -24,7 +24,6 @@ trait CanBeSaved
     ): void {
         $query->addSelect([
             'is_saved' => Save::selectRaw('count(id) as count')
-                ->where('savable_type', $this->getMorphClass())
                 ->whereSavableType($this->getMorphClass())
                 ->whereColumn((new Save)->qualifyColumn('savable_id'),
                     $this->qualifyColumn('id'))
