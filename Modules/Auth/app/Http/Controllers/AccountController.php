@@ -47,9 +47,10 @@ class AccountController extends Controller
         return AccountResource::collection($data);
     }
 
-    public function show(Account $account)
+    public function show(Request $request, Account $account)
     {
-        return AccountResource::make($account->load([
+
+        $account->load([
             'skills',
             'tools',
             'educations',
@@ -61,7 +62,13 @@ class AccountController extends Controller
                 'banner',
                 'languages',
             ],
-        ]));
+        ]);
+
+        if ($request->account) {
+            $account->is_saved = $account->isSavedBy($request->account);
+        }
+
+        return AccountResource::make($account);
     }
 
     /**

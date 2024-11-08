@@ -31,16 +31,21 @@ class ProjectController extends Controller
     /**
      * Show the specified resource.
      */
-    public function show(Project $project)
+    public function show(Request $request, Project $project)
     {
-
-        return ProjectResource::make($project->load([
+        $project->load([
             'account' => [
                 'user' => [
                     'avatar',
                     'languages',
                 ],
             ],
-        ]));
+        ]);
+
+        if ($request->account) {
+            $project->is_saved = $project->isSavedBy($request->account);
+        }
+
+        return ProjectResource::make($project);
     }
 }
