@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
+use Modules\Auth\Models\Account;
 use Modules\Media\Enums\MediaCollectionType;
 use Modules\Media\Models\Media;
 use Modules\Project\Database\Factories\ProjectFactory;
@@ -34,6 +35,11 @@ class Project extends Model implements HasMedia
     protected static function newFactory(): ProjectFactory
     {
         return ProjectFactory::new();
+    }
+
+    public function account(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    {
+        return $this->belongsTo(Account::class);
     }
 
     public function languages(): \Illuminate\Database\Eloquent\Relations\HasMany

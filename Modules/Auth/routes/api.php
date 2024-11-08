@@ -74,6 +74,20 @@ Route::get('v1/accounts/{account}', [AccountController::class, 'show'])
         OptionalAccountCheck::class.':'.AccountType::CLIENT->value,
     ]);
 
+Route::get('v1/projects', [\Modules\Project\Http\Controllers\ProjectController::class, 'index'])
+    ->name('projects.index')
+    ->middleware([
+        OptionalAuth::class,
+        OptionalAccountCheck::class.':'.AccountType::FREELANCER->value,
+    ]);
+
+Route::get('v1/projects/{project}', [\Modules\Project\Http\Controllers\ProjectController::class, 'show'])
+    ->name('project.show')
+    ->middleware([
+        OptionalAuth::class,
+        OptionalAccountCheck::class.':'.AccountType::FREELANCER->value,
+    ]);
+
 Route::apiResource('v1/accounts/{account}/portfolios', PortfolioController::class)
     ->only(['index', 'show'])
     ->names('account.portfolios');
