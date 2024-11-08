@@ -11,6 +11,7 @@ use Modules\Project\Http\Requests\CreateProjectRequest;
 use Modules\Project\Http\Requests\UpdateProjectRequest;
 use Modules\Project\Models\Project;
 use Modules\Project\Transformers\ProjectResource;
+use Spatie\QueryBuilder\AllowedFilter;
 use Spatie\QueryBuilder\QueryBuilder;
 
 class ProjectController extends Controller
@@ -21,7 +22,12 @@ class ProjectController extends Controller
     public function index(Request $request)
     {
         $data = QueryBuilder::for(Project::class)
-            ->allowedFilters(['status'])
+            ->allowedFilters([
+                AllowedFilter::exact('status'),
+                AllowedFilter::exact('length'),
+                AllowedFilter::exact('experience_level'),
+                AllowedFilter::scope('search'),
+            ])
             ->where('account_id', $request->account->id)
             ->with(['images', 'skills', 'languages'])
             ->paginate($request->per_page ?? 10);
