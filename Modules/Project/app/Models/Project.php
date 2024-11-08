@@ -10,12 +10,14 @@ use Modules\Auth\Models\Account;
 use Modules\Media\Enums\MediaCollectionType;
 use Modules\Media\Models\Media;
 use Modules\Project\Database\Factories\ProjectFactory;
+use Modules\Save\Models\Traits\CanBeSaved;
 use Modules\Skill\Models\Skill;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 
 class Project extends Model implements HasMedia
 {
+    use CanBeSaved;
     use HasFactory;
     use InteractsWithMedia;
 

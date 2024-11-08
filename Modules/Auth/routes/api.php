@@ -22,6 +22,7 @@ use Modules\Certificate\Http\Controllers\CertificateController;
 use Modules\Media\Http\Controllers\MediaController;
 use Modules\Portfolio\Http\Controllers\PortfolioController;
 use Modules\Project\Http\Controllers\Client\ProjectController;
+use Modules\Project\Http\Controllers\SaveProjectController;
 use Modules\Skill\Http\Controllers\SkillController;
 use Modules\Tool\Http\Controllers\ToolController;
 
@@ -115,6 +116,14 @@ Route::middleware(['auth:sanctum'])->prefix('v1')->group(function () {
     Route::delete('/accounts/{account}/un-save', [SaveAccountController::class, 'destroy'])
         ->middleware(AccountCheck::class.':'.AccountType::CLIENT->value)
         ->name('account.un-save');
+
+    Route::post('/projects/{project}/save', [SaveProjectController::class, 'store'])
+        ->middleware(AccountCheck::class.':'.AccountType::FREELANCER->value)
+        ->name('projects.save');
+
+    Route::delete('/projects/{project}/un-save', [SaveProjectController::class, 'destroy'])
+        ->middleware(AccountCheck::class.':'.AccountType::FREELANCER->value)
+        ->name('projects.un-save');
 
     Route::apiResource('medias', MediaController::class)->names('medias')->only(['store', 'show', 'destroy']);
 
