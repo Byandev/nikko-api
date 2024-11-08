@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Modules\Project\Enums\ProjectStatus;
 use Modules\Project\Models\Project;
 use Modules\Project\Transformers\ProjectResource;
+use Spatie\QueryBuilder\AllowedFilter;
 use Spatie\QueryBuilder\QueryBuilder;
 
 class ProjectController extends Controller
@@ -23,6 +24,16 @@ class ProjectController extends Controller
                 $query->appendIsSavedBy($request->account);
             })
             ->allowedIncludes(['account', 'account.user', 'account.user.avatar'])
+            ->allowedFilters([
+                AllowedFilter::exact('length'),
+                AllowedFilter::exact('experience_level'),
+                AllowedFilter::scope('search'),
+                AllowedFilter::callback('is_saved', function (Builder $query) use ($request) {
+                    $query->when($request->account, function (Builder $query) use ($request) {
+                        $query->onlySavedBy($request->account);
+                    });
+                }),
+            ])
             ->paginate($request->per_page ?? 10);
 
         return ProjectResource::collection($data);

@@ -2,6 +2,7 @@
 
 namespace Modules\Project\Models;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -66,5 +67,14 @@ class Project extends Model implements HasMedia
             ->registerMediaConversions(function () {
                 $this->addMediaConversion('thumb')->width(254);
             });
+    }
+
+    public function scopeSearch(Builder $builder, string $search)
+    {
+        $builder->where(function (Builder $query) use ($search) {
+            $query->where('title', 'LIKE', "%$search%")
+                ->orWhere('description', 'LIKE', "%$search%")
+                ->orWhereHas('account', fn (Builder $subQuery) => $subQuery->search($search));
+        });
     }
 }
