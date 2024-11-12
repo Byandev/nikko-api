@@ -19,6 +19,7 @@ class ProposalResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
+            'id' => $this->id,
             'account_id' => $this->account_id,
             'project_id' => $this->project_id,
             'bid' => $this->bid,
