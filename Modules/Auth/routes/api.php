@@ -22,6 +22,7 @@ use Modules\Certificate\Http\Controllers\CertificateController;
 use Modules\Media\Http\Controllers\MediaController;
 use Modules\Portfolio\Http\Controllers\PortfolioController;
 use Modules\Project\Http\Controllers\Client\ProjectController;
+use Modules\Project\Http\Controllers\ProposalController;
 use Modules\Project\Http\Controllers\SaveProjectController;
 use Modules\Skill\Http\Controllers\SkillController;
 use Modules\Tool\Http\Controllers\ToolController;
@@ -117,35 +118,34 @@ Route::middleware(['auth:sanctum'])->prefix('v1')->group(function () {
         ->middleware(AccountCheck::class.':'.AccountType::CLIENT->value)
         ->name('account.un-save');
 
-    Route::post('/projects/{project}/save', [SaveProjectController::class, 'store'])
-        ->middleware(AccountCheck::class.':'.AccountType::FREELANCER->value)
-        ->name('projects.save');
+    Route::middleware([AccountCheck::class.':'.AccountType::FREELANCER->value])->group(function () {
+        Route::post('/projects/{project}/save', [SaveProjectController::class, 'store'])
+            ->name('projects.save');
 
-    Route::delete('/projects/{project}/un-save', [SaveProjectController::class, 'destroy'])
-        ->middleware(AccountCheck::class.':'.AccountType::FREELANCER->value)
-        ->name('projects.un-save');
+        Route::delete('/projects/{project}/un-save', [SaveProjectController::class, 'destroy'])
+            ->name('projects.un-save');
+
+        Route::apiResource('portfolios', PortfolioController::class)
+            ->only(['store', 'update', 'destroy'])
+            ->names('account.portfolios');
+
+        Route::apiResource('certificates', CertificateController::class)
+            ->only(['store', 'update', 'destroy'])
+            ->names('account.certificates');
+
+        Route::apiResource('work-experiences', WorkExperienceController::class)
+            ->only(['store', 'update', 'destroy'])
+            ->names('account.work-experiences');
+
+        Route::apiResource('educations', EducationController::class)
+            ->only(['store', 'update', 'destroy'])
+            ->names('account.educations');
+
+        Route::apiResource('proposals', ProposalController::class)
+            ->names('account.proposals');
+    });
 
     Route::apiResource('medias', MediaController::class)->names('medias')->only(['store', 'show', 'destroy']);
-
-    Route::apiResource('portfolios', PortfolioController::class)
-        ->only(['store', 'update', 'destroy'])
-        ->middleware(AccountCheck::class.':'.AccountType::FREELANCER->value)
-        ->names('account.portfolios');
-
-    Route::apiResource('certificates', CertificateController::class)
-        ->only(['store', 'update', 'destroy'])
-        ->middleware(AccountCheck::class.':'.AccountType::FREELANCER->value)
-        ->names('account.certificates');
-
-    Route::apiResource('work-experiences', WorkExperienceController::class)
-        ->only(['store', 'update', 'destroy'])
-        ->middleware(AccountCheck::class.':'.AccountType::FREELANCER->value)
-        ->names('account.work-experiences');
-
-    Route::apiResource('educations', EducationController::class)
-        ->only(['store', 'update', 'destroy'])
-        ->middleware(AccountCheck::class.':'.AccountType::FREELANCER->value)
-        ->names('account.educations');
 
     Route::group(['prefix' => 'client', 'middleware' => [AccountCheck::class.':'.AccountType::CLIENT->value]], function () {
         Route::apiResource('projects', ProjectController::class)->names('client.projects');

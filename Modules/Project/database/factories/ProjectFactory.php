@@ -22,7 +22,7 @@ class ProjectFactory extends Factory
     public function definition(): array
     {
         return [
-            'account_id' => fn () => Account::factory()->create()->id,
+            'account_id' => fn () => Account::factory()->client()->create()->id,
             'title' => fake()->jobTitle,
             'description' => fake()->paragraph,
             'estimated_budget' => fake()->numberBetween(100, 100000),
