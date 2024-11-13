@@ -47,7 +47,7 @@ class IndexTest extends TestCase
         Sanctum::actingAs($freelancer->user);
 
         $this->getJson(route('api.projects.index', [
-            'include' => 'account.user.avatar',
+            'include' => 'account.user.avatar,myProposal',
         ]), [
             'X-ACCOUNT-ID' => $freelancer->id,
         ])

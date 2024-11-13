@@ -21,10 +21,9 @@ class ProjectController extends Controller
         $data = QueryBuilder::for(Project::class)
             ->where('status', ProjectStatus::ACTIVE->value)
             ->when($request->account, function (Builder $query) use ($request) {
-                $query->appendIsSavedBy($request->account)
-                    ->appendProposalIdByAccountId($request->account->id);
+                $query->appendIsSavedBy($request->account);
             })
-            ->allowedIncludes(['account', 'account.user', 'account.user.avatar'])
+            ->allowedIncludes(['account', 'account.user', 'account.user.avatar', 'myProposal'])
             ->allowedFilters([
                 AllowedFilter::exact('status'),
                 AllowedFilter::exact('length'),
@@ -47,12 +46,16 @@ class ProjectController extends Controller
     public function show(Request $request, Project $project)
     {
         $project->load([
+            'myProposal',
             'account' => [
                 'user' => [
                     'avatar',
                     'languages',
                 ],
             ],
+            'languages',
+            'skills',
+            'images',
         ]);
 
         if ($request->account) {

@@ -32,8 +32,8 @@ class ProjectResource extends JsonResource
             'updated_at' => $this->updated_at,
 
             'is_saved' => $this->is_saved ?? false,
-            'proposal_id' => $this->proposal_id ?? null,
 
+            'my_proposal' => ProposalResource::make($this->whenLoaded('myProposal')),
             'account' => AccountResource::make($this->whenLoaded('account')),
             'languages' => ProjectLanguageResource::collection($this->whenLoaded('languages')),
             'skills' => SkillResource::collection($this->whenLoaded('skills')),

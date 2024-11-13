@@ -26,6 +26,7 @@ class ProposalResource extends JsonResource
             'transaction_fee' => $this->transaction_fee,
             'length' => $this->length,
             'status' => $this->status,
+            'cover_letter' => $this->cover_letter,
 
             'account' => AccountResource::make($this->whenLoaded('account')),
             'project' => ProjectResource::make($this->whenLoaded('project')),

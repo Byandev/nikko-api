@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Modules\Auth\Models\Account;
 use Modules\Media\Enums\MediaCollectionType;
@@ -55,6 +56,16 @@ class Project extends Model implements HasMedia
         return $this->belongsToMany(Skill::class, 'project_skills');
     }
 
+    public function myProposal(): HasOne
+    {
+        return $this->hasOne(Proposal::class)
+            ->when(request()->account, function (Builder $query) {
+                $query->where('account_id', request()->account->id);
+            }, function (Builder $query) {
+                $query->whereNull('account_id');
+            });
+    }
+
     public function images(): MorphMany
     {
         return $this->morphMany(Media::class, 'model')
@@ -67,21 +78,6 @@ class Project extends Model implements HasMedia
             ->registerMediaConversions(function () {
                 $this->addMediaConversion('thumb')->width(254);
             });
-    }
-
-    public function scopeAppendProposalIdByAccountId(
-        Builder $query,
-        int $accountId
-    ): void {
-        $query->addSelect([
-            'proposal_id' => Proposal::select(['id'])
-                ->whereAccountId($accountId)
-                ->whereColumn((new Proposal)->qualifyColumn('project_id'),
-                    $this->qualifyColumn('id'))
-                ->take(1),
-        ]);
-
-        $query->withCasts(['proposal_id' => 'int']);
     }
 
     public function scopeSearch(Builder $builder, string $search)
