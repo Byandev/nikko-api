@@ -69,6 +69,21 @@ class Project extends Model implements HasMedia
             });
     }
 
+    public function scopeAppendProposalIdByAccountId(
+        Builder $query,
+        int $accountId
+    ): void {
+        $query->addSelect([
+            'proposal_id' => Proposal::select(['id'])
+                ->whereAccountId($accountId)
+                ->whereColumn((new Proposal)->qualifyColumn('project_id'),
+                    $this->qualifyColumn('id'))
+                ->take(1),
+        ]);
+
+        $query->withCasts(['proposal_id' => 'int']);
+    }
+
     public function scopeSearch(Builder $builder, string $search)
     {
         $builder->where(function (Builder $query) use ($search) {
