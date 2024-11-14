@@ -158,7 +158,7 @@ Route::middleware(['auth:sanctum'])->prefix('v1')->group(function () {
         Route::apiResource('projects', ProjectController::class)->names('client.projects');
 
         Route::apiResource('proposals/invitations', ClientProposalInvitationController::class)
-            ->only(['index', 'show', 'destroy'])
+            ->only(['index', 'show', 'destroy', 'store'])
             ->names('client.proposal-invitations');
 
         Route::apiResource('proposals', ClientProposalController::class)->only(['index', 'show'])
