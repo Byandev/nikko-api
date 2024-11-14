@@ -26,6 +26,7 @@ class ProposalController extends Controller
                 'status',
                 'length',
             ])
+            ->where('account_id', $request->account->id)
             ->allowedIncludes([
                 'attachments',
                 'project.account.user.avatar',
