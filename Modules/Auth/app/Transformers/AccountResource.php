@@ -7,6 +7,7 @@ use Illuminate\Http\Resources\Json\JsonResource;
 use Modules\Auth\Models\Account;
 use Modules\Certificate\Transformers\CertificateResource;
 use Modules\Portfolio\Transformers\PortfolioResource;
+use Modules\Project\Transformers\ProposalInvitationResource;
 use Modules\Skill\Transformers\SkillResource;
 use Modules\Tool\Transformers\ToolResource;
 
@@ -37,6 +38,7 @@ class AccountResource extends JsonResource
             'portfolios' => PortfolioResource::collection($this->whenLoaded('portfolios')),
             'certificates' => CertificateResource::collection($this->whenLoaded('certificates')),
             'work_experiences' => WorkExperienceResource::collection($this->whenLoaded('workExperiences')),
+            'proposal_invitation_to_project' => ProposalInvitationResource::make($this->whenLoaded('proposalInvitationToProject')),
         ];
     }
 }

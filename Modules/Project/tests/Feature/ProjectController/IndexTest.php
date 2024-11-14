@@ -52,7 +52,6 @@ class IndexTest extends TestCase
             'X-ACCOUNT-ID' => $freelancer->id,
         ])
             ->assertSuccessful()
-            ->dump()
             ->assertJsonFragment(['total' => $count]);
     }
 }

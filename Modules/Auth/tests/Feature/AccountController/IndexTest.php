@@ -7,6 +7,8 @@ use Laravel\Sanctum\Sanctum;
 use Modules\Auth\Enums\AccountType;
 use Modules\Auth\Models\Account;
 use Modules\Auth\Models\User;
+use Modules\Project\Models\Project;
+use Modules\Project\Models\ProposalInvitation;
 use Modules\Save\Models\Save;
 use Modules\Skill\Models\Skill;
 use Tests\TestCase;
@@ -182,5 +184,32 @@ class IndexTest extends TestCase
             ->assertSuccessful()
             ->assertJsonFragment(['total' => $savedAccountsCount])
             ->assertJsonFragment(['is_saved' => true]);
+    }
+
+    public function test_user_can_get_list_of_accounts_with_is_invited_to_project_tag()
+    {
+        $client = Account::factory()->client()->create();
+
+        Sanctum::actingAs($client->user);
+
+        $project = Project::factory()->create(['account_id' => $client->id]);
+
+        Account::factory()
+            ->freelancer()
+            ->count($invitedCount = fake()->numberBetween(2, 5))
+            ->create()
+            ->each(function (Account $freelancer) use ($project) {
+                ProposalInvitation::factory()->create(['project_id' => $project->id, 'account_id' => $freelancer->id]);
+            });
+
+        $this->getJson(route('api.account.index', [
+            'filter[type]' => AccountType::FREELANCER->value,
+            'project_id' => $project->id,
+            'include' => 'proposalInvitationToProject',
+        ]), [
+            'X-ACCOUNT-ID' => $client->id,
+        ])
+            ->assertSuccessful()
+            ->assertJsonFragment(['total' => $invitedCount]);
     }
 }

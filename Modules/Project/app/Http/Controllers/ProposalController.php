@@ -8,8 +8,10 @@ use Illuminate\Validation\Rule;
 use Modules\Media\Enums\MediaCollectionType;
 use Modules\Media\Models\Media;
 use Modules\Project\Enums\ProjectLength;
+use Modules\Project\Enums\ProposalInvitationStatus;
 use Modules\Project\Enums\ProposalStatus;
 use Modules\Project\Models\Proposal;
+use Modules\Project\Models\ProposalInvitation;
 use Modules\Project\Transformers\ProposalResource;
 use Spatie\QueryBuilder\QueryBuilder;
 
@@ -64,6 +66,10 @@ class ProposalController extends Controller
             'transaction_fee' => $request->post('bid') * 0.05,
             'status' => ProposalStatus::SUBMITTED->value,
         ]);
+
+        ProposalInvitation::where('account_id', $request->account?->id)
+            ->where('project_id', $request->post('project_id'))
+            ->update(['status' => ProposalInvitationStatus::PROPOSAL_SUBMITTED->value]);
 
         Media::whereIn('id', $request->post('attachments'))
             ->get()

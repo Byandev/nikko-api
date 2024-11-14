@@ -8,9 +8,11 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Modules\Auth\Database\Factories\AccountFactory;
 use Modules\Certificate\Models\Certificate;
 use Modules\Portfolio\Models\Portfolio;
+use Modules\Project\Models\ProposalInvitation;
 use Modules\Save\Models\Traits\CanBeSaved;
 use Modules\Skill\Models\Skill;
 use Modules\Tool\Models\Tool;
@@ -64,6 +66,16 @@ class Account extends Model
     public function certificates(): HasMany
     {
         return $this->hasMany(Certificate::class);
+    }
+
+    public function proposalInvitationToProject(): HasOne
+    {
+        return $this->hasOne(ProposalInvitation::class)
+            ->when(request()->input('project_id'), function (Builder $query) {
+                $query->where('project_id', request()->input('project_id'));
+            }, function (Builder $query) {
+                $query->whereNull('project_id');
+            });
     }
 
     public function scopeSearch(Builder $builder, string $search)

@@ -23,7 +23,9 @@ use Modules\Media\Http\Controllers\MediaController;
 use Modules\Portfolio\Http\Controllers\PortfolioController;
 use Modules\Project\Http\Controllers\Client\ProjectController;
 use Modules\Project\Http\Controllers\Client\ProposalController as ClientProposalController;
+use Modules\Project\Http\Controllers\Client\ProposalInvitationController as ClientProposalInvitationController;
 use Modules\Project\Http\Controllers\ProposalController;
+use Modules\Project\Http\Controllers\ProposalInvitationController;
 use Modules\Project\Http\Controllers\SaveProjectController;
 use Modules\Skill\Http\Controllers\SkillController;
 use Modules\Tool\Http\Controllers\ToolController;
@@ -142,6 +144,10 @@ Route::middleware(['auth:sanctum'])->prefix('v1')->group(function () {
             ->only(['store', 'update', 'destroy'])
             ->names('account.educations');
 
+        Route::apiResource('proposals/invitations', ProposalInvitationController::class)
+            ->only(['index', 'show', 'update'])
+            ->names('account.proposal-invitations');
+
         Route::apiResource('proposals', ProposalController::class)
             ->names('account.proposals');
     });
@@ -150,6 +156,12 @@ Route::middleware(['auth:sanctum'])->prefix('v1')->group(function () {
 
     Route::group(['prefix' => 'client', 'middleware' => [AccountCheck::class.':'.AccountType::CLIENT->value]], function () {
         Route::apiResource('projects', ProjectController::class)->names('client.projects');
-        Route::apiResource('proposals', ClientProposalController::class)->only(['index', 'show'])->names('client.proposals');
+
+        Route::apiResource('proposals/invitations', ClientProposalInvitationController::class)
+            ->only(['index', 'show', 'destroy'])
+            ->names('client.proposal-invitations');
+
+        Route::apiResource('proposals', ClientProposalController::class)->only(['index', 'show'])
+            ->names('client.proposals');
     });
 });

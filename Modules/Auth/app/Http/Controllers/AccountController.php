@@ -41,6 +41,7 @@ class AccountController extends Controller
                 'educations',
                 'portfolios',
                 'certificates',
+                'proposalInvitationToProject',
             ])
             ->paginate();
 
