@@ -27,7 +27,7 @@ class AccountCheck
             ->first();
 
         if (! $account) {
-            return response(['message' => 'Forbidden', 'details' => 'Not a freelancer account.'], 403);
+            return response(['message' => 'Forbidden', 'details' => 'Invalid account.'], 403);
         }
 
         $request->merge(['account' => $account]);
