@@ -32,7 +32,7 @@ class Proposal extends Model implements HasMedia
     ];
 
     protected $casts = [
-        'bid' => 'decimal',
+        'bid' => 'decimal:8',
         'transaction_fee' => 'decimal:8',
     ];
 
