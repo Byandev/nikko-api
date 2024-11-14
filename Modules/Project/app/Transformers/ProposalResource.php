@@ -28,6 +28,8 @@ class ProposalResource extends JsonResource
             'status' => $this->status,
             'cover_letter' => $this->cover_letter,
 
+            'is_saved' => $this->is_saved ?? false,
+
             'account' => AccountResource::make($this->whenLoaded('account')),
             'project' => ProjectResource::make($this->whenLoaded('project')),
             'attachments' => MediaResource::collection($this->whenLoaded('attachments')),

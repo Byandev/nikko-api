@@ -10,11 +10,13 @@ use Modules\Auth\Models\Account;
 use Modules\Media\Enums\MediaCollectionType;
 use Modules\Media\Models\Media;
 use Modules\Project\Database\Factories\ProposalFactory;
+use Modules\Save\Models\Traits\CanBeSaved;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 
 class Proposal extends Model implements HasMedia
 {
+    use CanBeSaved;
     use HasFactory;
     use InteractsWithMedia;
 

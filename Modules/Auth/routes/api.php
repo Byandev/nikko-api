@@ -22,6 +22,7 @@ use Modules\Certificate\Http\Controllers\CertificateController;
 use Modules\Media\Http\Controllers\MediaController;
 use Modules\Portfolio\Http\Controllers\PortfolioController;
 use Modules\Project\Http\Controllers\Client\ProjectController;
+use Modules\Project\Http\Controllers\Client\ProposalController as ClientProposalController;
 use Modules\Project\Http\Controllers\ProposalController;
 use Modules\Project\Http\Controllers\SaveProjectController;
 use Modules\Skill\Http\Controllers\SkillController;
@@ -149,5 +150,6 @@ Route::middleware(['auth:sanctum'])->prefix('v1')->group(function () {
 
     Route::group(['prefix' => 'client', 'middleware' => [AccountCheck::class.':'.AccountType::CLIENT->value]], function () {
         Route::apiResource('projects', ProjectController::class)->names('client.projects');
+        Route::apiResource('proposals', ClientProposalController::class)->only(['index', 'show'])->names('client.proposals');
     });
 });
