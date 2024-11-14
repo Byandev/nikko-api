@@ -31,6 +31,11 @@ class Proposal extends Model implements HasMedia
         'cover_letter',
     ];
 
+    protected $casts = [
+        'bid' => 'decimal',
+        'transaction_fee' => 'decimal',
+    ];
+
     protected static function newFactory(): ProposalFactory
     {
         return ProposalFactory::new();
