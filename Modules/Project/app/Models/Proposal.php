@@ -32,8 +32,8 @@ class Proposal extends Model implements HasMedia
     ];
 
     protected $casts = [
-        'bid' => 'decimal:8',
-        'transaction_fee' => 'decimal:8',
+        'bid' => 'float',
+        'transaction_fee' => 'float',
     ];
 
     protected static function newFactory(): ProposalFactory
