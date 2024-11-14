@@ -48,6 +48,14 @@ class ProposalInvitationController extends Controller
             'account_id' => 'required|exists:accounts,id',
         ]);
 
+        $exists = ProposalInvitation::whereAccountId($request->post('account_id'))
+            ->whereProjectId($request->post('project_id'))
+            ->exists();
+
+        if ($exists) {
+            return response(['message' => 'Invitation Exists'], 400);
+        }
+
         $invitation = ProposalInvitation::create([
             'project_id' => $request->post('project_id'),
             'status' => ProposalInvitationStatus::PENDING->value,
