@@ -83,7 +83,7 @@ class ProposalController extends Controller
             return response(['message' => 'Forbidden'], 403);
         }
 
-        return ProposalResource::make($proposal->load('project.account.user'));
+        return ProposalResource::make($proposal->load(['project.account.user', 'attachments']));
     }
 
     /**
