@@ -37,11 +37,11 @@ class ProposalController extends Controller
             ])
             ->paginate($request->per_page ?? 10);
 
-        collect($data->items())->each(function (Proposal $proposal) {
-            if ($proposal->project) {
-                $proposal->project->proposals_count = $proposal->project_proposals_count;
-            }
-        });
+        //        collect($data->items())->each(function (Proposal $proposal) {
+        //            if ($proposal->project) {
+        //                $proposal->project->proposals_count = $proposal->project_proposals_count;
+        //            }
+        //        });
 
         return ProposalResource::collection($data);
     }
