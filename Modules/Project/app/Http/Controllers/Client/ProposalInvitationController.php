@@ -51,6 +51,7 @@ class ProposalInvitationController extends Controller
 
         $exists = ProposalInvitation::whereAccountId($request->post('account_id'))
             ->whereProjectId($request->post('project_id'))
+            ->whereStatus(ProposalInvitationStatus::PENDING->value)
             ->exists();
 
         if ($exists) {
