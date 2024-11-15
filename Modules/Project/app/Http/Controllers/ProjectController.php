@@ -37,7 +37,36 @@ class ProjectController extends Controller
             ])
             ->paginate($request->per_page ?? 10);
 
-        return ProjectResource::collection($data);
+        $savedCount = QueryBuilder::for(Project::class)
+            ->where('status', ProjectStatus::ACTIVE->value)
+            ->when($request->account, function (Builder $query) use ($request) {
+                $query->onlySavedBy($request->account);
+            })
+            ->allowedFilters([
+                AllowedFilter::exact('status'),
+                AllowedFilter::exact('length'),
+                AllowedFilter::exact('experience_level'),
+                AllowedFilter::scope('search'),
+            ])
+            ->count();
+
+        $totalCount = QueryBuilder::for(Project::class)
+            ->where('status', ProjectStatus::ACTIVE->value)
+            ->allowedFilters([
+                AllowedFilter::exact('status'),
+                AllowedFilter::exact('length'),
+                AllowedFilter::exact('experience_level'),
+                AllowedFilter::scope('search'),
+            ])
+            ->count();
+
+        return ProjectResource::collection($data)
+            ->additional([
+                'meta' => [
+                    'total_count' => $totalCount,
+                    'total_saved_count' => $savedCount,
+                ],
+            ]);
     }
 
     /**
