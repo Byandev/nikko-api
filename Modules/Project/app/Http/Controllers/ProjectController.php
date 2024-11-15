@@ -24,7 +24,7 @@ class ProjectController extends Controller
             ->when($request->account, function (Builder $query) use ($request) {
                 $query->appendIsSavedBy($request->account);
             })
-            ->allowedIncludes(['account', 'account.user', 'account.user.avatar', 'myProposal'])
+            ->allowedIncludes(['account', 'account.user', 'account.user.avatar', 'myProposal', 'skills', 'languages'])
             ->allowedFilters([
                 AllowedFilter::exact('status'),
                 AllowedFilter::exact('length'),
