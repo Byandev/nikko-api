@@ -3,7 +3,6 @@
 namespace Modules\Project\Http\Controllers;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Database\Query\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use Modules\Media\Enums\MediaCollectionType;
@@ -24,6 +23,7 @@ class ProposalController extends Controller
     public function index(Request $request)
     {
         $data = QueryBuilder::for(Proposal::class)
+            ->appendProposalsCount()
             ->allowedFilters([
                 'project_id',
                 'status',
@@ -35,14 +35,15 @@ class ProposalController extends Controller
                 'project.account.user',
                 'project.skills',
             ])
-            ->with([
-                'project' => fn (
-                    Builder $builder) => $builder->withCount('proposals'),
-            ])
             ->paginate($request->per_page ?? 10);
 
-        return ProposalResource::collection($data);
+        collect($data->items())->each(function (Proposal $proposal) {
+            if ($proposal->project) {
+                $proposal->project->proposals_count = $proposal->project_proposals_count;
+            }
+        });
 
+        return ProposalResource::collection($data);
     }
 
     /**

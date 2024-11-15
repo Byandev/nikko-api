@@ -2,6 +2,7 @@
 
 namespace Modules\Project\Models;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -65,5 +66,16 @@ class Proposal extends Model implements HasMedia
             ->registerMediaConversions(function () {
                 $this->addMediaConversion('thumb')->width(254);
             });
+    }
+
+    public function scopeAppendProposalsCount(Builder $query)
+    {
+        $query->addSelect([
+            'project_proposals_count' => Proposal::selectRaw('COUNT(id) as project_proposals_count')
+                ->whereColumn($this->qualifyColumn('project_id'), $this->qualifyColumn('project_id'))
+                ->take(1),
+        ]);
+
+        $query->withCasts(['project_proposals_count' => 'int']);
     }
 }
