@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Modules\Project\Enums\ProposalInvitationStatus;
+use Modules\Project\Models\Proposal;
 use Modules\Project\Models\ProposalInvitation;
 use Modules\Project\Transformers\ProposalInvitationResource;
 use Spatie\QueryBuilder\QueryBuilder;
@@ -54,6 +55,14 @@ class ProposalInvitationController extends Controller
 
         if ($exists) {
             return response(['message' => 'Invitation Exists'], 400);
+        }
+
+        $proposalExists = Proposal::whereAccountId($request->post('account_id'))
+            ->whereProjectId($request->post('project_id'))
+            ->exists();
+
+        if ($proposalExists) {
+            return response(['message' => 'Proposal Exists'], 400);
         }
 
         $invitation = ProposalInvitation::create([
