@@ -31,8 +31,10 @@ class ProposalController extends Controller
             ->where('account_id', $request->account->id)
             ->allowedIncludes([
                 'attachments',
-                'project.account.user.avatar',
+                'project.account.user',
+                'project.skills',
             ])
+            ->withCount('project.proposals')
             ->paginate($request->per_page ?? 10);
 
         return ProposalResource::collection($data);
