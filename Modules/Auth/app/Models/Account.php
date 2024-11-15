@@ -68,6 +68,11 @@ class Account extends Model
         return $this->hasMany(Certificate::class);
     }
 
+    public function proposalInvitations(): HasMany
+    {
+        return $this->hasMany(ProposalInvitation::class);
+    }
+
     public function proposalInvitationToProject(): HasOne
     {
         return $this->hasOne(ProposalInvitation::class)

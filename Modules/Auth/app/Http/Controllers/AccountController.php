@@ -30,6 +30,14 @@ class AccountController extends Controller
                         $query->onlySavedBy($request->account);
                     });
                 }),
+                AllowedFilter::callback('can_be_invited_to_project', function (Builder $builder, $value) use ($request) {
+                    $builder->when($request->account, function (Builder $query) use ($value) {
+                        $query->where(function (Builder $subQuery) use ($value) {
+                            $subQuery->whereDoesntHave('proposal', fn (Builder $proposalQuery) => $proposalQuery->where('project_id', $value))
+                                ->orWhereDoesntHave('proposalInvitations', fn (Builder $proposalInvitationQuery) => $proposalInvitationQuery->where('project_id', $value));
+                        });
+                    });
+                }),
             ])
             ->allowedIncludes([
                 'user',
