@@ -71,7 +71,7 @@ class ProjectController extends Controller
             ->additional([
                 'meta' => [
                     'total_count' => $totalCount,
-                    'total_saved_count' => $savedCount,
+                    'total_saved_count' => $request->account ? $savedCount : 0,
                 ],
             ]);
     }
