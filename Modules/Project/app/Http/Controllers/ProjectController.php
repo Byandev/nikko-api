@@ -20,6 +20,7 @@ class ProjectController extends Controller
     {
         $data = QueryBuilder::for(Project::class)
             ->where('status', ProjectStatus::ACTIVE->value)
+            ->withCount('proposals')
             ->when($request->account, function (Builder $query) use ($request) {
                 $query->appendIsSavedBy($request->account);
             })
