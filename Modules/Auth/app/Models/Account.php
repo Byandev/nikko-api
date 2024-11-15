@@ -12,6 +12,7 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
 use Modules\Auth\Database\Factories\AccountFactory;
 use Modules\Certificate\Models\Certificate;
 use Modules\Portfolio\Models\Portfolio;
+use Modules\Project\Models\Proposal;
 use Modules\Project\Models\ProposalInvitation;
 use Modules\Save\Models\Traits\CanBeSaved;
 use Modules\Skill\Models\Skill;
@@ -71,6 +72,11 @@ class Account extends Model
     public function proposalInvitations(): HasMany
     {
         return $this->hasMany(ProposalInvitation::class);
+    }
+
+    public function proposals(): HasMany
+    {
+        return $this->hasMany(Proposal::class);
     }
 
     public function proposalInvitationToProject(): HasOne
