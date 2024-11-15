@@ -24,6 +24,7 @@ class ProposalInvitationController extends Controller
             ])
             ->allowedIncludes([
                 'project',
+                'project.account.user',
                 'project.account.user.avatar',
             ])
             ->paginate($request->per_page ?? 10);
