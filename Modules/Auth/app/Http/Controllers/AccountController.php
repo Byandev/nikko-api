@@ -53,7 +53,40 @@ class AccountController extends Controller
             ])
             ->paginate();
 
-        return AccountResource::collection($data);
+        $savedCount = QueryBuilder::for(Account::class)
+            ->when($request->account, function (Builder $query) use ($request) {
+                $query->onlySavedBy($request->account);
+            })
+            ->allowedFilters([
+                AllowedFilter::exact('type'),
+                AllowedFilter::scope('search'),
+                AllowedFilter::scope('skills'),
+                AllowedFilter::scope('user_countries'),
+                AllowedFilter::callback('is_saved', function (Builder $query) {
+                    $query->whereNotNull('id');
+                }),
+            ])
+            ->count();
+
+        $totalCount = QueryBuilder::for(Account::class)
+            ->allowedFilters([
+                AllowedFilter::exact('type'),
+                AllowedFilter::scope('search'),
+                AllowedFilter::scope('skills'),
+                AllowedFilter::scope('user_countries'),
+                AllowedFilter::callback('is_saved', function (Builder $query) {
+                    $query->whereNotNull('id');
+                }),
+            ])
+            ->count();
+
+        return AccountResource::collection($data)
+            ->additional([
+                'meta' => [
+                    'total_count' => $totalCount,
+                    'total_saved_count' => $request->account ? $savedCount : 0,
+                ],
+            ]);
     }
 
     public function show(Request $request, Account $account)
