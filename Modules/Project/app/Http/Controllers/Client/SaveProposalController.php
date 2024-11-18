@@ -4,7 +4,6 @@ namespace Modules\Project\Http\Controllers\Client;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use Modules\Project\Models\Project;
 use Modules\Project\Models\Proposal;
 use Modules\Project\Transformers\ProposalResource;
 
@@ -25,7 +24,7 @@ class SaveProposalController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Request $request, Project $proposal)
+    public function destroy(Request $request, Proposal $proposal)
     {
         $proposal->unSaveBy($request->account);
 
