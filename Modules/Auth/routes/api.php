@@ -24,6 +24,7 @@ use Modules\Portfolio\Http\Controllers\PortfolioController;
 use Modules\Project\Http\Controllers\Client\ProjectController;
 use Modules\Project\Http\Controllers\Client\ProposalController as ClientProposalController;
 use Modules\Project\Http\Controllers\Client\ProposalInvitationController as ClientProposalInvitationController;
+use Modules\Project\Http\Controllers\Client\SaveProposalController;
 use Modules\Project\Http\Controllers\ProposalController;
 use Modules\Project\Http\Controllers\ProposalInvitationController;
 use Modules\Project\Http\Controllers\SaveProjectController;
@@ -160,6 +161,12 @@ Route::middleware(['auth:sanctum'])->prefix('v1')->group(function () {
         Route::apiResource('proposals/invitations', ClientProposalInvitationController::class)
             ->only(['index', 'show', 'destroy', 'store'])
             ->names('client.proposal-invitations');
+
+        Route::post('/proposals/{proposal}/save', [SaveProposalController::class, 'store'])
+            ->name('client.proposals.save');
+
+        Route::delete('/proposals/{proposal}/un-save', [SaveProposalController::class, 'destroy'])
+            ->name('client.proposals.un-save');
 
         Route::apiResource('proposals', ClientProposalController::class)->only(['index', 'show'])
             ->names('client.proposals');

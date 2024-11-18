@@ -37,7 +37,42 @@ class ProposalController extends Controller
             ])
             ->paginate($request->per_page ?? 10);
 
-        return ProposalResource::collection($data);
+        $savedCount = QueryBuilder::for(Proposal::class)
+            ->onlySavedBy($request->account)
+            ->whereHas('project', function (Builder $query) use ($request) {
+                $query->where('account_id', $request->account->id);
+            })
+            ->allowedFilters([
+                'project_id',
+                'status',
+                'length',
+                AllowedFilter::callback('is_saved', function (Builder $query) {
+                    $query->whereNotNull('id');
+                }),
+            ])
+            ->count();
+
+        $totalCount = QueryBuilder::for(Proposal::class)
+            ->whereHas('project', function (Builder $query) use ($request) {
+                $query->where('account_id', $request->account->id);
+            })
+            ->allowedFilters([
+                'project_id',
+                'status',
+                'length',
+                AllowedFilter::callback('is_saved', function (Builder $query) {
+                    $query->whereNotNull('id');
+                }),
+            ])
+            ->count();
+
+        return ProposalResource::collection($data)
+            ->additional([
+                'meta' => [
+                    'total_count' => $totalCount,
+                    'total_saved_count' => $request->account ? $savedCount : 0,
+                ],
+            ]);
 
     }
 
