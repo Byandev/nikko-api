@@ -7,6 +7,8 @@ use Laravel\Sanctum\Sanctum;
 use Modules\Auth\Models\Account;
 use Modules\Project\Enums\ProjectStatus;
 use Modules\Project\Models\Project;
+use Modules\Project\Models\Proposal;
+use Modules\Project\Models\ProposalInvitation;
 use Tests\TestCase;
 
 class IndexTest extends TestCase
@@ -31,6 +33,54 @@ class IndexTest extends TestCase
         ])
             ->assertSuccessful()
             ->assertJsonFragment(['total' => $count]);
+    }
+
+    public function test_client_can_list_projects_that_can_send_invitation_to_a_freelancer()
+    {
+        $client = Account::factory()->client()->create();
+        $freelancer = Account::factory()->client()->create();
+
+        $projectsWithInvitations = Project::factory()
+            ->count(fake()->numberBetween(2, 3))
+            ->create(['account_id' => $client->id])
+            ->each(function (Project $project) use ($freelancer) {
+                ProposalInvitation::factory()->create([
+                    'account_id' => $freelancer->id,
+                    'project_id' => $project->id,
+                ]);
+            });
+
+        $projectsWithProposals = Project::factory()
+            ->count(fake()->numberBetween(2, 3))
+            ->create(['account_id' => $client->id])
+            ->each(function (Project $project) use ($freelancer) {
+                Proposal::factory()->create([
+                    'account_id' => $freelancer->id,
+                    'project_id' => $project->id,
+                ]);
+            });
+
+        $projects = Project::factory()
+            ->count(fake()->numberBetween(2, 3))
+            ->create(['account_id' => $client->id]);
+
+        Sanctum::actingAs($client->user);
+
+        $this->getJson(route('api.client.projects.index', [
+            'filter[can_be_invited_to_account]' => $freelancer->id,
+        ]), [
+            'X-ACCOUNT-ID' => $client->id,
+        ])
+            ->assertSuccessful()
+            ->assertJsonFragment([
+                'id' => $projects->random()->id,
+            ])
+            ->assertJsonMissing([
+                'id' => $projectsWithInvitations->random()->id,
+            ])
+            ->assertJsonMissing([
+                'id' => $projectsWithProposals->random()->id,
+            ]);
     }
 
     /**

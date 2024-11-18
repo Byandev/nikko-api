@@ -72,6 +72,11 @@ class Project extends Model implements HasMedia
         return $this->hasMany(Proposal::class);
     }
 
+    public function proposalInvitations(): HasMany
+    {
+        return $this->hasMany(ProposalInvitation::class);
+    }
+
     public function images(): MorphMany
     {
         return $this->morphMany(Media::class, 'model')

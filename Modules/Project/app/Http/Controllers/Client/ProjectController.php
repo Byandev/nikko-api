@@ -3,6 +3,7 @@
 namespace Modules\Project\Http\Controllers\Client;
 
 use App\Http\Controllers\Controller;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 use Modules\Media\Enums\MediaCollectionType;
@@ -27,6 +28,12 @@ class ProjectController extends Controller
                 AllowedFilter::exact('length'),
                 AllowedFilter::exact('experience_level'),
                 AllowedFilter::scope('search'),
+                AllowedFilter::callback('can_be_invited_to_account', function (Builder $builder, $value) {
+                    $builder->where(function (Builder $subQuery) use ($value) {
+                        $subQuery->whereDoesntHave('proposals', fn (Builder $proposalQuery) => $proposalQuery->where('account_id', $value))
+                            ->whereDoesntHave('proposalInvitations', fn (Builder $proposalInvitationQuery) => $proposalInvitationQuery->where('account_id', $value));
+                    });
+                }),
             ])
             ->where('account_id', $request->account->id)
             ->with(['images', 'skills', 'languages'])
