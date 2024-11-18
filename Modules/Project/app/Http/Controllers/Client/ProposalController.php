@@ -33,6 +33,7 @@ class ProposalController extends Controller
             ->allowedIncludes([
                 'attachments',
                 'project',
+                'project.account.user',
                 'project.account.user.avatar',
             ])
             ->paginate($request->per_page ?? 10);
