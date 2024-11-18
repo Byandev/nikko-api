@@ -82,10 +82,10 @@ class Account extends Model
     public function proposalInvitationToProject(): HasOne
     {
         return $this->hasOne(ProposalInvitation::class)
-            ->when(request()->input('project_id'), function (Builder $query) {
-                $query->where('project_id', request()->input('project_id'));
+            ->when(request()->input('proposal_invitation_to_project'), function (Builder $query) {
+                $query->where('project_id', request()->input('proposal_invitation_to_project'));
             }, function (Builder $query) {
-                $query->whereNull('project_id');
+                $query->whereNull('proposal_invitation_to_project');
             });
     }
 

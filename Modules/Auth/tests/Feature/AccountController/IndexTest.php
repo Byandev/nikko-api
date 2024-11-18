@@ -204,7 +204,7 @@ class IndexTest extends TestCase
 
         $this->getJson(route('api.account.index', [
             'filter[type]' => AccountType::FREELANCER->value,
-            'project_id' => $project->id,
+            'proposal_invitation_to_project' => $project->id,
             'include' => 'proposalInvitationToProject',
         ]), [
             'X-ACCOUNT-ID' => $client->id,
