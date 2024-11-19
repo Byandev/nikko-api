@@ -23,6 +23,7 @@ class Contract extends Model
         'platform_fee_percentage',
         'total_amount',
         'status',
+        'end_date',
     ];
 
     protected static function newFactory(): ContractFactory
