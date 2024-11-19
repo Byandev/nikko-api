@@ -40,6 +40,7 @@ class ContractController extends Controller
             'amount' => $request->post('amount'),
             'platform_fee_percentage' => 0.05,
             'status' => ContractStatus::PENDING->value,
+            'end_date' => $request->post('end_date'),
         ]);
 
         return ContractResource::make($contract->load(['account', 'proposal', 'project']));
