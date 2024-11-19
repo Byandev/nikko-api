@@ -26,6 +26,12 @@ class Contract extends Model
         'end_date',
     ];
 
+    protected $casts = [
+        'amount' => 'float',
+        'total_amount' => 'float',
+        'platform_fee_percentage' => 'float',
+    ];
+
     protected static function newFactory(): ContractFactory
     {
         return ContractFactory::new();
