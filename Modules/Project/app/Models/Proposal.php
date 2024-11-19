@@ -68,6 +68,11 @@ class Proposal extends Model implements HasMedia
             });
     }
 
+    public function contract(): \Illuminate\Database\Eloquent\Relations\HasOne
+    {
+        return $this->hasOne(Contract::class);
+    }
+
     public function scopeAppendProposalsCount(Builder $query)
     {
         $query->addSelect([

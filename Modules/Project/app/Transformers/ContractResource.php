@@ -5,13 +5,12 @@ namespace Modules\Project\Transformers;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Modules\Auth\Transformers\AccountResource;
-use Modules\Media\Transformers\MediaResource;
-use Modules\Project\Models\Proposal;
+use Modules\Project\Models\Contract;
 
 /**
- * @mixin Proposal
+ * @mixin Contract
  */
-class ProposalResource extends JsonResource
+class ContractResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -22,18 +21,19 @@ class ProposalResource extends JsonResource
             'id' => $this->id,
             'account_id' => $this->account_id,
             'project_id' => $this->project_id,
-            'bid' => $this->bid,
-            'transaction_fee' => $this->transaction_fee,
-            'length' => $this->length,
+            'proposal_id' => $this->proposal_id,
+            'amount' => $this->amount,
+            'platform_fee_percentage' => $this->platform_fee_percentage,
+            'total_amount' => $this->total_amount,
+            'end_date' => $this->end_date,
             'status' => $this->status,
-            'cover_letter' => $this->cover_letter,
-
-            'is_saved' => $this->is_saved ?? false,
+            'created_at' => $this->created_at,
+            'updated_at' => $this->updated_at,
 
             'account' => AccountResource::make($this->whenLoaded('account')),
             'project' => ProjectResource::make($this->whenLoaded('project')),
-            'contract' => ContractResource::make($this->whenLoaded('contract')),
-            'attachments' => MediaResource::collection($this->whenLoaded('attachments')),
+            'proposal' => ProposalResource::make($this->whenLoaded('proposal')),
+
         ];
     }
 }

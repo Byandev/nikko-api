@@ -21,6 +21,7 @@ use Modules\Auth\Http\Middleware\OptionalAuth;
 use Modules\Certificate\Http\Controllers\CertificateController;
 use Modules\Media\Http\Controllers\MediaController;
 use Modules\Portfolio\Http\Controllers\PortfolioController;
+use Modules\Project\Http\Controllers\Client\ContractController;
 use Modules\Project\Http\Controllers\Client\ProjectController;
 use Modules\Project\Http\Controllers\Client\ProposalController as ClientProposalController;
 use Modules\Project\Http\Controllers\Client\ProposalInvitationController as ClientProposalInvitationController;
@@ -170,5 +171,8 @@ Route::middleware(['auth:sanctum'])->prefix('v1')->group(function () {
 
         Route::apiResource('proposals', ClientProposalController::class)->only(['index', 'show'])
             ->names('client.proposals');
+
+        Route::apiResource('contracts', ContractController::class)->only(['store', 'show', 'update', 'destroy'])
+            ->names('client.contracts');
     });
 });

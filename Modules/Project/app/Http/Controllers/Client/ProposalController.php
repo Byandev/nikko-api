@@ -33,6 +33,7 @@ class ProposalController extends Controller
             ->allowedIncludes([
                 'attachments',
                 'project',
+                'contract',
                 'project.account.user',
                 'project.account.user.avatar',
             ])
@@ -82,7 +83,7 @@ class ProposalController extends Controller
      */
     public function show(Request $request, Proposal $proposal)
     {
-        $proposal->load(['project.account.user', 'attachments']);
+        $proposal->load(['project.account.user', 'attachments', 'contract']);
 
         if ($request->account?->id != $proposal->project->account_id) {
             return response(['message' => 'Forbidden'], 403);
