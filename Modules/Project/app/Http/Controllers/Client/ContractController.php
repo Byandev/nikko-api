@@ -51,6 +51,7 @@ class ContractController extends Controller
      */
     public function update(Request $request, Contract $contract)
     {
+
         $data = $request->validate([
             'amount' => ['required', 'sometimes', 'numeric'],
             'end_date' => [
@@ -61,6 +62,12 @@ class ContractController extends Controller
                 'after_or_equal:'.now()->format('Y-m-d'),
             ],
         ]);
+
+        //        $contract->load(['account', 'proposal', 'project']);
+
+        //        if ($request->account?->id != $contract->project->account_id) {
+        //            return response(['message' => 'Forbidden'], 403);
+        //        }
 
         $contract->update($data);
 
@@ -74,9 +81,9 @@ class ContractController extends Controller
     {
         $contract->load(['account', 'proposal', 'project']);
 
-        if ($request->account?->id != $contract->project->account_id) {
-            return response(['message' => 'Forbidden'], 403);
-        }
+        //        if ($request->account?->id != $contract->project->account_id) {
+        //            return response(['message' => 'Forbidden'], 403);
+        //        }
 
         return ContractResource::make($contract);
     }
@@ -88,9 +95,9 @@ class ContractController extends Controller
     {
         $contract->load(['account', 'proposal', 'project']);
 
-        if ($request->account?->id != $contract->project->account_id) {
-            return response(['message' => 'Forbidden'], 403);
-        }
+        //        if ($request->account?->id != $contract->project->account_id) {
+        //            return response(['message' => 'Forbidden'], 403);
+        //        }
 
         $contract->delete();
 
