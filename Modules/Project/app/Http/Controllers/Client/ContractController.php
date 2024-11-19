@@ -63,11 +63,11 @@ class ContractController extends Controller
             ],
         ]);
 
-        //        $contract->load(['account', 'proposal', 'project']);
+        $contract->load(['account', 'proposal', 'project']);
 
-        //        if ($request->account?->id != $contract->project->account_id) {
-        //            return response(['message' => 'Forbidden'], 403);
-        //        }
+        if ($request->account?->id != $contract->project->account_id) {
+            return response(['message' => 'Forbidden'], 403);
+        }
 
         $contract->update($data);
 
@@ -81,9 +81,9 @@ class ContractController extends Controller
     {
         $contract->load(['account', 'proposal', 'project']);
 
-        //        if ($request->account?->id != $contract->project->account_id) {
-        //            return response(['message' => 'Forbidden'], 403);
-        //        }
+        if ($request->account?->id != $contract->project->account_id) {
+            return response(['message' => 'Forbidden'], 403);
+        }
 
         return ContractResource::make($contract);
     }
@@ -95,9 +95,9 @@ class ContractController extends Controller
     {
         $contract->load(['account', 'proposal', 'project']);
 
-        //        if ($request->account?->id != $contract->project->account_id) {
-        //            return response(['message' => 'Forbidden'], 403);
-        //        }
+        if ($request->account?->id != $contract->project->account_id) {
+            return response(['message' => 'Forbidden'], 403);
+        }
 
         $contract->delete();
 
