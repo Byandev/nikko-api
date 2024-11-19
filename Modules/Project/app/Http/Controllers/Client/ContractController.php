@@ -27,7 +27,7 @@ class ContractController extends Controller
             ],
         ]);
 
-        $proposal = Proposal::find($request->post('proposal_id'))->with('contract')->first();
+        $proposal = Proposal::whereId($request->post('proposal_id'))->with('contract')->first();
 
         if ($proposal->contract) {
             return response()->json(['message' => 'Proposal already have contract'], 400);
