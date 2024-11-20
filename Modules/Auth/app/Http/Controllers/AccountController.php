@@ -51,7 +51,7 @@ class AccountController extends Controller
                 'certificates',
                 'proposalInvitationToProject',
             ])
-            ->paginate();
+            ->paginate($request->input('per_page', 10));
 
         $savedCount = QueryBuilder::for(Account::class)
             ->when($request->account, function (Builder $query) use ($request) {
