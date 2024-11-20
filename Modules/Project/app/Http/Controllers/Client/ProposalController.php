@@ -83,7 +83,7 @@ class ProposalController extends Controller
      */
     public function show(Request $request, Proposal $proposal)
     {
-        $proposal->load(['project.account.user', 'attachments', 'contract']);
+        $proposal->load(['project' => ['account.user', 'languages', 'skills', 'images'], 'attachments', 'contract']);
 
         if ($request->account?->id != $proposal->project->account_id) {
             return response(['message' => 'Forbidden'], 403);
