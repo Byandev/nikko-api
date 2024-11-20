@@ -79,7 +79,10 @@ class ProjectController extends Controller
      */
     public function show(Project $project)
     {
-        return ProjectResource::make($project->load(['languages', 'skills', 'images'])->loadCount('proposals'));
+        $project->load(['languages', 'skills', 'images']);
+        $project->loadCount('proposals');
+
+        return ProjectResource::make($project);
     }
 
     /**

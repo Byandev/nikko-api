@@ -98,6 +98,8 @@ class ProjectController extends Controller
             $project->is_saved = $project->isSavedBy($request->account);
         }
 
+        $project->loadCount('proposals');
+
         return ProjectResource::make($project);
     }
 }
