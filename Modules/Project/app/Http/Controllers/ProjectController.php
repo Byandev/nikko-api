@@ -49,6 +49,7 @@ class ProjectController extends Controller
                 AllowedFilter::exact('length'),
                 AllowedFilter::exact('experience_level'),
                 AllowedFilter::scope('search'),
+                AllowedFilter::scope('skills'),
                 AllowedFilter::callback('is_saved', function (Builder $query) {
                     $query->whereNotNull('id');
                 }),
@@ -62,6 +63,7 @@ class ProjectController extends Controller
                 AllowedFilter::exact('length'),
                 AllowedFilter::exact('experience_level'),
                 AllowedFilter::scope('search'),
+                AllowedFilter::scope('skills'),
                 AllowedFilter::callback('is_saved', function (Builder $query) {
                     $query->whereNotNull('id');
                 }),
