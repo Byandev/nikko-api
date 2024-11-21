@@ -31,7 +31,7 @@ class ContractResource extends JsonResource
             'updated_at' => $this->updated_at,
 
             'account' => AccountResource::make($this->whenLoaded('account')),
-            'project' => ProjectResource::make($this->whenLoaded('project')),
+            //            'project' => ProjectResource::make($this->whenLoaded('project')),
             'proposal' => ProposalResource::make($this->whenLoaded('proposal')),
 
         ];
