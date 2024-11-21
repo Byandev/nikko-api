@@ -30,6 +30,7 @@ class ProjectController extends Controller
                 AllowedFilter::exact('length'),
                 AllowedFilter::exact('experience_level'),
                 AllowedFilter::scope('search'),
+                AllowedFilter::scope('skills'),
                 AllowedFilter::callback('is_saved', function (Builder $query) use ($request) {
                     $query->when($request->account, function (Builder $query) use ($request) {
                         $query->onlySavedBy($request->account);

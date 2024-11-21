@@ -99,4 +99,13 @@ class Project extends Model implements HasMedia
                 ->orWhereHas('account', fn (Builder $subQuery) => $subQuery->search($search));
         });
     }
+
+    public function scopeSkills(Builder $builder, ...$skillIds)
+    {
+        $builder->when(count($skillIds), function (Builder $query) use ($skillIds) {
+            $query->whereHas('skills', function (Builder $subQuery) use ($skillIds) {
+                $subQuery->whereIn('id', $skillIds);
+            });
+        });
+    }
 }
