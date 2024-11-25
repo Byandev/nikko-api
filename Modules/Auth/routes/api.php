@@ -21,11 +21,12 @@ use Modules\Auth\Http\Middleware\OptionalAuth;
 use Modules\Certificate\Http\Controllers\CertificateController;
 use Modules\Media\Http\Controllers\MediaController;
 use Modules\Portfolio\Http\Controllers\PortfolioController;
-use Modules\Project\Http\Controllers\Client\ContractController;
+use Modules\Project\Http\Controllers\Client\ContractController as ClientContractController;
 use Modules\Project\Http\Controllers\Client\ProjectController;
 use Modules\Project\Http\Controllers\Client\ProposalController as ClientProposalController;
 use Modules\Project\Http\Controllers\Client\ProposalInvitationController as ClientProposalInvitationController;
 use Modules\Project\Http\Controllers\Client\SaveProposalController;
+use Modules\Project\Http\Controllers\ContractController;
 use Modules\Project\Http\Controllers\ProposalController;
 use Modules\Project\Http\Controllers\ProposalInvitationController;
 use Modules\Project\Http\Controllers\SaveProjectController;
@@ -152,6 +153,9 @@ Route::middleware(['auth:sanctum'])->prefix('v1')->group(function () {
 
         Route::apiResource('proposals', ProposalController::class)
             ->names('account.proposals');
+
+        Route::apiResource('contracts', ContractController::class)->only(['index', 'show', 'update'])
+            ->names('account.contracts');
     });
 
     Route::apiResource('medias', MediaController::class)->names('medias')->only(['store', 'show', 'destroy']);
@@ -172,7 +176,7 @@ Route::middleware(['auth:sanctum'])->prefix('v1')->group(function () {
         Route::apiResource('proposals', ClientProposalController::class)->only(['index', 'show'])
             ->names('client.proposals');
 
-        Route::apiResource('contracts', ContractController::class)->only(['store', 'show', 'update', 'destroy'])
+        Route::apiResource('contracts', ClientContractController::class)->only(['store', 'show', 'update', 'destroy'])
             ->names('client.contracts');
     });
 });
