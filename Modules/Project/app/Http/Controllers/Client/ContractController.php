@@ -51,7 +51,6 @@ class ContractController extends Controller
      */
     public function update(Request $request, Contract $contract)
     {
-
         $data = $request->validate([
             'amount' => ['required', 'sometimes', 'numeric'],
             'end_date' => [
@@ -61,6 +60,7 @@ class ContractController extends Controller
                 'date_format:Y-m-d',
                 'after_or_equal:'.now()->format('Y-m-d'),
             ],
+            'status' => 'sometimes|string|in:'.ContractStatus::COMPLETED->value,
         ]);
 
         $contract->load(['account', 'proposal', 'project']);
