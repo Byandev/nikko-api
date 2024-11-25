@@ -3,14 +3,42 @@
 namespace Modules\Project\Http\Controllers\Client;
 
 use App\Http\Controllers\Controller;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Modules\Project\Enums\ContractStatus;
 use Modules\Project\Models\Contract;
 use Modules\Project\Models\Proposal;
 use Modules\Project\Transformers\ContractResource;
+use Spatie\QueryBuilder\AllowedFilter;
+use Spatie\QueryBuilder\QueryBuilder;
 
 class ContractController extends Controller
 {
+    public function index(Request $request)
+    {
+        $data = QueryBuilder::for(Contract::class)
+            ->allowedFilters([
+                AllowedFilter::exact('status'),
+            ])
+            ->allowedIncludes([
+                'account.user.avatar',
+                'proposal.project.account.user',
+                'proposal.project.languages',
+                'proposal.project.skills',
+                'proposal.project.images',
+                'proposal.attachments',
+                'proposal.account.skills',
+                'proposal.project.account.user.avatar',
+            ])
+            ->whereHas('project', function (Builder $query) use ($request) {
+                $query->where('account_id', $request->account->id);
+            })
+            ->whereNot('status', ContractStatus::REJECTED->value)
+            ->paginate($request->input('per_page', 10));
+
+        return ContractResource::collection($data);
+    }
+
     /**
      * Show the specified resource.
      */

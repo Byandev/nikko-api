@@ -38,6 +38,7 @@ class ProposalController extends Controller
                 'account.skills',
                 'project.account.user',
                 'project.account.user.avatar',
+                'project.skills',
             ])
             ->paginate($request->per_page ?? 10);
 
