@@ -52,7 +52,7 @@ class ContractController extends Controller
 
         if ($request->post('status') === ContractStatus::ACTIVE->value) {
             Proposal::where('id', $contract->proposal_id)
-                ->update(['status' => ProposalStatus::IN_CONTRACT->value]);
+                ->update(['status' => ProposalStatus::PENDING_OFFER->value]);
         }
 
         $contract->update($data);
