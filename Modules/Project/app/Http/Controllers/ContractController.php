@@ -32,7 +32,7 @@ class ContractController extends Controller
             ->whereNot('status', ContractStatus::REJECTED->value)
             ->paginate($request->input('per_page', 10));
 
-        return ContractResource::paginate($data);
+        return ContractResource::collection($data);
     }
 
     /**
