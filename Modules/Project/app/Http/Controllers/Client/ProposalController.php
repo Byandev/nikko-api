@@ -34,6 +34,7 @@ class ProposalController extends Controller
                 'attachments',
                 'project',
                 'contract',
+                'account.user.avatar',
                 'project.account.user',
                 'project.account.user.avatar',
             ])
