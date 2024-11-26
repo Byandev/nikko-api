@@ -25,6 +25,6 @@ class AuthDatabaseSeeder extends Seeder
 
         $role = Role::firstOrCreate(['name' => 'ADMIN']);
 
-        $admin->assignRole($role->name);
+        $admin->assignRole($role);
     }
 }
