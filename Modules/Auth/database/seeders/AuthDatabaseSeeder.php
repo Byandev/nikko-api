@@ -16,7 +16,7 @@ class AuthDatabaseSeeder extends Seeder
     {
         User::whereEmail('admin@artsycrowd.com')->delete();
 
-        $admin = User::factory()->create([
+        $admin = User::create([
             'first_name' => 'Nikko',
             'last_name' => 'Mendoza',
             'email' => 'admin@artsycrowd.com',
