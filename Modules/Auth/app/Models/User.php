@@ -23,6 +23,8 @@ class User extends Authenticatable implements HasMedia
 {
     use HasApiTokens, HasAvatar, HasBanner, HasFactory, HasRoles, Notifiable;
 
+    protected array $guard_name = ['api', 'web', 'sanctum'];
+
     /**
      * The attributes that are mass assignable.
      *

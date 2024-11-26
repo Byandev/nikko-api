@@ -23,8 +23,8 @@ class AuthDatabaseSeeder extends Seeder
             'password' => Hash::make('ueDL80vSUT9^'),
         ]);
 
-        Role::firstOrCreate(['name' => 'ADMIN']);
+        $role = Role::firstOrCreate(['name' => 'ADMIN']);
 
-        $admin->assignRole('ADMIN', '');
+        $admin->assignRole($role->name);
     }
 }
