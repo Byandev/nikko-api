@@ -44,6 +44,8 @@ use Modules\Tool\Http\Controllers\ToolController;
  *
 */
 
+Route::post('v1/admin/auth/login', \Modules\Auth\Http\Controllers\Admin\LoginController::class)->name('admin.auth.login');
+
 Route::name('auth.')->prefix('v1/auth')->group(function () {
     Route::post('/login', LoginController::class)->name('login');
     Route::post('/admin/login', \Modules\Auth\Http\Controllers\Admin\LoginController::class)->name('admin.login');
