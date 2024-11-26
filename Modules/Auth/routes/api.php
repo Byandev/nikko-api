@@ -176,7 +176,7 @@ Route::middleware(['auth:sanctum'])->prefix('v1')->group(function () {
         Route::apiResource('proposals', ClientProposalController::class)->only(['index', 'show'])
             ->names('client.proposals');
 
-        Route::apiResource('contracts', ClientContractController::class)->only(['store', 'show', 'update', 'destroy'])
+        Route::apiResource('contracts', ClientContractController::class)->only(['index', 'store', 'show', 'update', 'destroy'])
             ->names('client.contracts');
     });
 });
