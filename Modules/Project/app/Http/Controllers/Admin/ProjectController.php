@@ -23,7 +23,7 @@ class ProjectController extends Controller
                 AllowedFilter::exact('experience_level'),
                 AllowedFilter::scope('search'),
             ])
-            ->allowedIncludes(['images', 'skills', 'languages'])
+            ->allowedIncludes(['images', 'skills', 'languages', 'account', 'account.user', 'account.user.avatar'])
             ->paginate($request->per_page ?? 10);
 
         return ProjectResource::collection($data);
