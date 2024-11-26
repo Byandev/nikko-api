@@ -17,10 +17,11 @@ use Modules\Media\Enums\MediaCollectionType;
 use Modules\Media\Models\Traits\HasAvatar;
 use Modules\Media\Models\Traits\HasBanner;
 use Spatie\MediaLibrary\HasMedia;
+use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable implements HasMedia
 {
-    use HasApiTokens, HasAvatar, HasBanner, HasFactory, Notifiable;
+    use HasApiTokens, HasAvatar, HasBanner, HasFactory, HasRoles, Notifiable;
 
     /**
      * The attributes that are mass assignable.

@@ -46,6 +46,8 @@ use Modules\Tool\Http\Controllers\ToolController;
 
 Route::name('auth.')->prefix('v1/auth')->group(function () {
     Route::post('/login', LoginController::class)->name('login');
+    Route::post('/admin/login', \Modules\Auth\Http\Controllers\Admin\LoginController::class)->name('admin.login');
+
     Route::post('/register', RegisterController::class)->name('register');
     Route::post('/forgot-password', ForgotPasswordController::class)->name('forgot-password');
     Route::post('/reset-password', [ResetPasswordController::class, 'store'])->name('reset-password');
@@ -178,5 +180,17 @@ Route::middleware(['auth:sanctum'])->prefix('v1')->group(function () {
 
         Route::apiResource('contracts', ClientContractController::class)->only(['index', 'store', 'show', 'update', 'destroy'])
             ->names('client.contracts');
+    });
+
+    Route::group(['prefix' => 'admin', 'middleware' => ['role:ADMIN']], function () {
+        Route::get('analytics', [\Modules\Project\Http\Controllers\Admin\AnalyticsController::class, 'index']);
+
+        Route::apiResource('projects', \Modules\Project\Http\Controllers\Admin\ProjectController::class)
+            ->only(['index', 'show'])
+            ->names('admin.projects');
+
+        Route::apiResource('contracts', \Modules\Project\Http\Controllers\Admin\ContractController::class)
+            ->only(['index', 'show'])
+            ->names('admin.contracts');
     });
 });
