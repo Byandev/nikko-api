@@ -107,7 +107,7 @@ class ContractController extends Controller
      */
     public function show(Request $request, Contract $contract)
     {
-        $contract->load(['account.user', 'proposal' => ['project' => ['account.user', 'languages', 'skills', 'images'], 'attachments']]);
+        $contract->load(['account.user.avatar', 'proposal' => ['project' => ['account.user.avatar', 'languages', 'skills', 'images'], 'attachments']]);
 
         if ($request->account?->id != $contract->project->account_id) {
             return response(['message' => 'Forbidden'], 403);
