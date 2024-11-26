@@ -17,6 +17,8 @@ class AccountController extends Controller
     public function index(Request $request)
     {
         $data = QueryBuilder::for(Account::class)
+            ->appendTotalSpent()
+            ->appendTotalEarnings()
             ->when($request->account, function (Builder $query) use ($request) {
                 $query->appendIsSavedBy($request->account);
             })
@@ -91,7 +93,6 @@ class AccountController extends Controller
 
     public function show(Request $request, Account $account)
     {
-
         $account->load([
             'skills',
             'tools',
@@ -109,6 +110,9 @@ class AccountController extends Controller
         if ($request->account) {
             $account->is_saved = $account->isSavedBy($request->account);
         }
+
+        $account->total_spent = $account->getTotalSpent();
+        $account->total_earnings = $account->getTotalEarnings();
 
         return AccountResource::make($account);
     }

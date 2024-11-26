@@ -30,6 +30,8 @@ class AccountResource extends JsonResource
             'updated_at' => $this->updated_at,
 
             'is_saved' => $this->is_saved ?? false,
+            'total_spent' => $this->total_spent ?? 0,
+            'total_earnings' => $this->total_earnings ?? 0,
 
             'user' => UserResource::make($this->whenLoaded('user')),
             'tools' => ToolResource::collection($this->whenLoaded('tools')),

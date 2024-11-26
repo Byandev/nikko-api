@@ -29,6 +29,7 @@ class ContractFactory extends Factory
             'platform_fee_percentage' => 0.05,
             'total_amount' => $amount * 1.05,
             'status' => ContractStatus::PENDING->value,
+            'end_date' => fake()->date(),
         ];
     }
 }

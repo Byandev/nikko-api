@@ -7,6 +7,8 @@ use Laravel\Sanctum\Sanctum;
 use Modules\Auth\Enums\AccountType;
 use Modules\Auth\Models\Account;
 use Modules\Auth\Models\User;
+use Modules\Project\Enums\ContractStatus;
+use Modules\Project\Models\Contract;
 use Modules\Project\Models\Project;
 use Modules\Project\Models\ProposalInvitation;
 use Modules\Save\Models\Save;
@@ -211,5 +213,27 @@ class IndexTest extends TestCase
         ])
             ->assertSuccessful()
             ->assertJsonFragment(['total' => $invitedCount]);
+    }
+
+    public function test_user_can_get_list_of_accounts_with_total_earnings()
+    {
+        $client = Account::factory()->client()->create();
+
+        Sanctum::actingAs($client->user);
+
+        Account::factory()
+            ->freelancer()
+            ->count(fake()->numberBetween(2, 5))
+            ->create()
+            ->each(function (Account $freelancer) {
+                Contract::factory()
+                    ->create(['status' => ContractStatus::COMPLETED->value, 'account_id' => $freelancer->id]);
+            });
+
+        $this->getJson(route('api.account.index'), [
+            'X-ACCOUNT-ID' => $client->id,
+        ])
+            ->assertSuccessful()
+            ->dump();
     }
 }

@@ -10,8 +10,12 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Modules\Auth\Database\Factories\AccountFactory;
+use Modules\Auth\Enums\AccountType;
 use Modules\Certificate\Models\Certificate;
 use Modules\Portfolio\Models\Portfolio;
+use Modules\Project\Enums\ContractStatus;
+use Modules\Project\Models\Contract;
+use Modules\Project\Models\Project;
 use Modules\Project\Models\Proposal;
 use Modules\Project\Models\ProposalInvitation;
 use Modules\Save\Models\Traits\CanBeSaved;
@@ -112,5 +116,47 @@ class Account extends Model
         $builder->whereHas('user', function (Builder $query) use ($countries) {
             $query->whereIn('country_code', $countries);
         });
+    }
+
+    public function scopeAppendTotalEarnings(Builder $builder)
+    {
+        $builder->addSelect([
+            'total_earnings' => Contract::selectRaw("CASE WHEN `accounts`.`type` = 'FREELANCER' AND SUM(amount) IS NOT NULL THEN SUM(amount) ELSE 0 END")
+                ->where('status', ContractStatus::COMPLETED->value)
+                ->whereColumn((new Contract)->qualifyColumn('account_id'), $this->qualifyColumn('id')),
+        ]);
+
+        $builder->withCasts(['total_earnings' => 'double']);
+    }
+
+    public function scopeAppendTotalSpent(Builder $builder)
+    {
+        $builder->addSelect([
+            'total_spent' => Contract::selectRaw("CASE WHEN `accounts`.`type` = 'CLIENT' AND SUM(amount) IS NOT NULL THEN SUM(amount) ELSE 0 END")
+                ->where('status', ContractStatus::COMPLETED->value)
+                ->whereHas('project', function (Builder $query) {
+                    $query->whereColumn((new Project)->qualifyColumn('account_id'), $this->qualifyColumn('id'));
+                }),
+        ]);
+
+        $builder->withCasts(['total_spent' => 'double']);
+    }
+
+    public function getTotalEarnings()
+    {
+        return $this->type === AccountType::FREELANCER->value ?
+            Contract::where('account_id', $this->id)
+                ->whereStatus(ContractStatus::COMPLETED->value)
+                ->sum('amount') :
+            0;
+    }
+
+    public function getTotalSpent()
+    {
+        return $this->type === AccountType::CLIENT->value ?
+            Contract::whereStatus(ContractStatus::COMPLETED->value)
+                ->whereHas('project', fn (Builder $builder) => $builder->where('account_id', $this->id))
+                ->sum('amount') :
+            0;
     }
 }
