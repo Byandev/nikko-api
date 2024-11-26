@@ -6,4 +6,5 @@ enum ProjectStatus: string
 {
     case DRAFT = 'DRAFT';
     case ACTIVE = 'ACTIVE';
+    case CLOSED = 'CLOSED';
 }

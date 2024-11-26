@@ -23,7 +23,8 @@ class CreateProjectRequest extends FormRequest
                 'required',
                 Rule::in(
                     ProjectStatus::DRAFT->value,
-                    ProjectStatus::ACTIVE->value
+                    ProjectStatus::ACTIVE->value,
+                    ProjectStatus::CLOSED->value,
                 ),
             ],
             'length' => [
