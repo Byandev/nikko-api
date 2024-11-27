@@ -16,6 +16,7 @@ class ContractController extends Controller
         $data = QueryBuilder::for(Contract::class)
             ->allowedFilters([
                 AllowedFilter::exact('status'),
+                AllowedFilter::exact('project_id'),
             ])
             ->allowedIncludes([
                 'account.user.avatar',
