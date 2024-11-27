@@ -32,7 +32,7 @@ class AnalyticsController extends Controller
             'total_freelancers' => $total_freelancers,
             'total_projects' => $total_projects,
             'total_contracts' => $total_contracts,
-            'total_completed_transactions' => $total_completed_transactions,
+            'total_completed_transactions' => (float) $total_completed_transactions,
             'total_active_projects' => $total_active_projects,
             'total_active_contracts' => $total_active_contracts,
             'total_completed_contracts' => $total_completed_contracts,
