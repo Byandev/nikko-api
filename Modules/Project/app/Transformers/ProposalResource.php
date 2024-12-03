@@ -5,6 +5,7 @@ namespace Modules\Project\Transformers;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Modules\Auth\Transformers\AccountResource;
+use Modules\Chat\Transformers\ChannelResource;
 use Modules\Media\Transformers\MediaResource;
 use Modules\Project\Models\Proposal;
 
@@ -34,6 +35,7 @@ class ProposalResource extends JsonResource
             'project' => ProjectResource::make($this->whenLoaded('project')),
             'contract' => ContractResource::make($this->whenLoaded('contract')),
             'attachments' => MediaResource::collection($this->whenLoaded('attachments')),
+            'chat_channel' => ChannelResource::make($this->whenLoaded('chat_channel')),
         ];
     }
 }

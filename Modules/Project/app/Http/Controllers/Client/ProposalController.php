@@ -39,6 +39,7 @@ class ProposalController extends Controller
                 'project.account.user',
                 'project.account.user.avatar',
                 'project.skills',
+                'chat_channel',
             ])
             ->paginate($request->per_page ?? 10);
 
@@ -86,7 +87,7 @@ class ProposalController extends Controller
      */
     public function show(Request $request, Proposal $proposal)
     {
-        $proposal->load(['project' => ['account.user', 'languages', 'skills', 'images'], 'attachments', 'contract', 'account' => ['user.avatar']]);
+        $proposal->load(['project' => ['account.user', 'languages', 'skills', 'images'], 'attachments', 'contract', 'account' => ['user.avatar']], 'chat_channel');
 
         if ($request->account?->id != $proposal->project->account_id) {
             return response(['message' => 'Forbidden'], 403);

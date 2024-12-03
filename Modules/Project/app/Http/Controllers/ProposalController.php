@@ -34,6 +34,7 @@ class ProposalController extends Controller
                 'attachments',
                 'project.account.user',
                 'project.skills',
+                'chat_channel',
             ])
             ->paginate($request->per_page ?? 10);
 

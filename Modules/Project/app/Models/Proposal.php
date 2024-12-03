@@ -7,7 +7,9 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
+use Illuminate\Database\Eloquent\Relations\MorphOne;
 use Modules\Auth\Models\Account;
+use Modules\Chat\Models\Channel;
 use Modules\Media\Enums\MediaCollectionType;
 use Modules\Media\Models\Media;
 use Modules\Project\Database\Factories\ProposalFactory;
@@ -82,5 +84,10 @@ class Proposal extends Model implements HasMedia
         ]);
 
         $query->withCasts(['project_proposals_count' => 'int']);
+    }
+
+    public function chat_channel(): MorphOne
+    {
+        return $this->morphOne(Channel::class, 'subject');
     }
 }

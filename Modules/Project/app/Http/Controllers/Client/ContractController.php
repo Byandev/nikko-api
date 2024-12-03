@@ -30,6 +30,7 @@ class ContractController extends Controller
                 'proposal.attachments',
                 'proposal.account.skills',
                 'proposal.project.account.user.avatar',
+                'proposal.chat_channel',
             ])
             ->whereHas('project', function (Builder $query) use ($request) {
                 $query->where('account_id', $request->account->id);
@@ -108,7 +109,7 @@ class ContractController extends Controller
      */
     public function show(Request $request, Contract $contract)
     {
-        $contract->load(['account.user.avatar', 'proposal' => ['project' => ['account.user.avatar', 'languages', 'skills', 'images'], 'attachments']]);
+        $contract->load(['account.user.avatar', 'proposal' => ['project' => ['account.user.avatar', 'languages', 'skills', 'images'], 'attachments', 'chat_channel']]);
 
         if ($request->account?->id != $contract->project->account_id) {
             return response(['message' => 'Forbidden'], 403);
