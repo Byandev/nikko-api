@@ -39,9 +39,10 @@ class ChannelController extends Controller
         $proposal = Proposal::find($request->post('subject_proposal_id'));
         $proposal->loadMissing(['project.account.user', 'account.user']);
 
-        $channel = Channel::create([
+        $channel = Channel::firstOrCreate([
             'subject_id' => $proposal->id,
             'subject_type' => Proposal::class,
+        ], [
             'title' => $proposal->project->title,
             'last_activity_at' => now(),
         ]);
