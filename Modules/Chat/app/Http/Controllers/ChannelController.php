@@ -17,7 +17,7 @@ class ChannelController extends Controller
      */
     public function index(Request $request)
     {
-        $channels = Channel::with(['subject.project.account.user', 'members.avatar'])
+        $channels = Channel::with(['members.avatar'])
             ->whereHas('members', function (Builder $builder) {
                 $builder->where('users.id', Auth::id());
             })
