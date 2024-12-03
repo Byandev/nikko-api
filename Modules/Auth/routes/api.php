@@ -19,6 +19,8 @@ use Modules\Auth\Http\Middleware\AccountCheck;
 use Modules\Auth\Http\Middleware\OptionalAccountCheck;
 use Modules\Auth\Http\Middleware\OptionalAuth;
 use Modules\Certificate\Http\Controllers\CertificateController;
+use Modules\Chat\Http\Controllers\ChannelController;
+use Modules\Chat\Http\Controllers\ChatMessageController;
 use Modules\Media\Http\Controllers\MediaController;
 use Modules\Portfolio\Http\Controllers\PortfolioController;
 use Modules\Project\Http\Controllers\Client\ContractController as ClientContractController;
@@ -182,6 +184,11 @@ Route::middleware(['auth:sanctum'])->prefix('v1')->group(function () {
 
         Route::apiResource('contracts', ClientContractController::class)->only(['index', 'store', 'show', 'update', 'destroy'])
             ->names('client.contracts');
+    });
+
+    Route::group(['prefix' => 'chat'], function () {
+        Route::apiResource('/channels', ChannelController::class)->only(['index', 'store', 'show'])->names('chat.channels');
+        Route::apiResource('/channels/{channel}/messages', ChatMessageController::class)->only(['index', 'store', 'show'])->names('chat.channels.messages');
     });
 
     Route::group(['prefix' => 'admin', 'middleware' => ['role:ADMIN']], function () {
