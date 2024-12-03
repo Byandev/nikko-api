@@ -6,5 +6,6 @@
     "Certificate": true,
     "Tool": true,
     "Project": true,
-    "Save": true
+    "Save": true,
+    "Chat": true
 }
