@@ -3,6 +3,7 @@
 namespace Modules\Chat\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Modules\Chat\Models\Channel;
@@ -48,6 +49,8 @@ class ChatMessageController extends Controller
                     $media->move($message, MediaCollectionType::CHAT_MESSAGE_ATTACHMENTS->value);
                 });
         }
+
+        $channel->last_activity_at = Carbon::now();
 
         return MessageResource::make($message->loadMissing(['attachments', 'sender.avatar']));
 
