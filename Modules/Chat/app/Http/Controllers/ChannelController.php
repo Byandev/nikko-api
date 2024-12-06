@@ -60,7 +60,7 @@ class ChannelController extends Controller
      */
     public function show(Channel $channel)
     {
-        $channel->load(['subject.project.account.user', 'members.model.avatar']);
+        $channel->load(['subject.project.account.user', 'members.avatar']);
 
         return ChannelResource::make($channel);
     }
