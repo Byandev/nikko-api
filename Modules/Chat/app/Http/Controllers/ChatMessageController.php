@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Modules\Chat\Broadcasting\MessageSent;
 use Modules\Chat\Models\Channel;
 use Modules\Chat\Transformers\MessageResource;
 use Modules\Media\Enums\MediaCollectionType;
@@ -51,6 +52,8 @@ class ChatMessageController extends Controller
         }
 
         $channel->last_activity_at = Carbon::now();
+
+        broadcast(new MessageSent($message));
 
         return MessageResource::make($message->loadMissing(['attachments', 'sender.avatar']));
 

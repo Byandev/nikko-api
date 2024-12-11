@@ -2,12 +2,19 @@
 
 namespace Modules\Chat\Broadcasting;
 
-class MessageSent
+use Illuminate\Broadcasting\InteractsWithBroadcasting;
+use Illuminate\Broadcasting\PrivateChannel;
+use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
+use Modules\Chat\Models\Message;
+
+class MessageSent implements ShouldBroadcast
 {
+    use InteractsWithBroadcasting;
+
     /**
      * Create a new channel instance.
      */
-    public function __construct()
+    public function __construct(public Message $message)
     {
         //
     }
@@ -18,5 +25,12 @@ class MessageSent
     public function join(): array|bool
     {
         return true;
+    }
+
+    public function broadcastOn(): array
+    {
+        return [
+            new PrivateChannel('chat.messages.'.$this->message->id),
+        ];
     }
 }
