@@ -52,6 +52,7 @@ class ChatMessageController extends Controller
         }
 
         $channel->last_activity_at = Carbon::now();
+        $channel->save();
 
         broadcast(new MessageSent($message));
 
