@@ -3,7 +3,6 @@
 namespace Modules\Chat\Broadcasting;
 
 use Illuminate\Broadcasting\InteractsWithBroadcasting;
-use Illuminate\Broadcasting\PrivateChannel;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Modules\Chat\Models\Channel;
 
@@ -30,7 +29,7 @@ class MessageSent implements ShouldBroadcast
     public function broadcastOn(): array
     {
         return [
-            new PrivateChannel('chat.channels.'.$this->channel->id),
+            new \Illuminate\Broadcasting\Channel('chat.channels.'.$this->channel->id),
         ];
     }
 }
