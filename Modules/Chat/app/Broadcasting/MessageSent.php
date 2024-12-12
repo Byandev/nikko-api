@@ -5,6 +5,7 @@ namespace Modules\Chat\Broadcasting;
 use Illuminate\Broadcasting\InteractsWithBroadcasting;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Modules\Chat\Models\Channel;
+use Modules\Chat\Models\Message;
 
 class MessageSent implements ShouldBroadcast
 {
@@ -13,9 +14,9 @@ class MessageSent implements ShouldBroadcast
     /**
      * Create a new channel instance.
      */
-    public function __construct(public Channel $channel)
+    public function __construct(public Message $message)
     {
-        //
+        $this->message->loadMissing(['attachments', 'sender.avatar']);
     }
 
     /**
@@ -29,7 +30,7 @@ class MessageSent implements ShouldBroadcast
     public function broadcastOn(): array
     {
         return [
-            new \Illuminate\Broadcasting\Channel('chat.channels.'.$this->channel->id),
+            new \Illuminate\Broadcasting\Channel('chat.channels.'.$this->message->channel_id),
         ];
     }
 }
