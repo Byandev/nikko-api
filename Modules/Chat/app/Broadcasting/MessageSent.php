@@ -5,7 +5,7 @@ namespace Modules\Chat\Broadcasting;
 use Illuminate\Broadcasting\InteractsWithBroadcasting;
 use Illuminate\Broadcasting\PrivateChannel;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
-use Modules\Chat\Models\Message;
+use Modules\Chat\Models\Channel;
 
 class MessageSent implements ShouldBroadcast
 {
@@ -14,7 +14,7 @@ class MessageSent implements ShouldBroadcast
     /**
      * Create a new channel instance.
      */
-    public function __construct(public Message $message)
+    public function __construct(public Channel $channel)
     {
         //
     }
@@ -30,7 +30,7 @@ class MessageSent implements ShouldBroadcast
     public function broadcastOn(): array
     {
         return [
-            new PrivateChannel('chat.channels.'.$this->message->channel_id),
+            new PrivateChannel('chat.channels.'.$this->channel->id),
         ];
     }
 }

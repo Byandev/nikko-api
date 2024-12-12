@@ -53,7 +53,7 @@ class ChatMessageController extends Controller
 
         $channel->last_activity_at = Carbon::now();
 
-        broadcast(new MessageSent($message));
+        broadcast(new MessageSent($channel));
 
         return MessageResource::make($message->loadMissing(['attachments', 'sender.avatar']));
 
