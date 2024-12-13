@@ -43,7 +43,7 @@ class ChannelController extends Controller
             'subject_id' => $proposal->id,
             'subject_type' => Proposal::class,
         ], [
-            'title' => $proposal->project->title,
+            'title' => $proposal->project->title.'('.$proposal->account->user->first_name.' '.$proposal->account->user->last_name.')',
             'last_activity_at' => now(),
         ]);
 
