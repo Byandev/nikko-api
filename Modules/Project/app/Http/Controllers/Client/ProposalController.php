@@ -41,6 +41,7 @@ class ProposalController extends Controller
                 'project.skills',
                 'chat_channel',
             ])
+            ->orderBy('created_at', 'DESC')
             ->paginate($request->per_page ?? 10);
 
         $savedCount = QueryBuilder::for(Proposal::class)

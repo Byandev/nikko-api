@@ -36,13 +36,8 @@ class ProposalController extends Controller
                 'project.skills',
                 'chat_channel',
             ])
+            ->orderBy('created_at', 'DESC')
             ->paginate($request->per_page ?? 10);
-
-        //        collect($data->items())->each(function (Proposal $proposal) {
-        //            if ($proposal->project) {
-        //                $proposal->project->proposals_count = $proposal->project_proposals_count;
-        //            }
-        //        });
 
         return ProposalResource::collection($data);
     }
