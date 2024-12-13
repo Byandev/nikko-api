@@ -23,7 +23,7 @@ class AccountController extends Controller
                 $query->appendIsSavedBy($request->account);
             })
             ->allowedFilters([
-                AllowedFilter::exact('type'),
+                AllowedFilter::scope('type'),
                 AllowedFilter::scope('search'),
                 AllowedFilter::scope('skills'),
                 AllowedFilter::scope('user_countries'),

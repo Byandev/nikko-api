@@ -95,11 +95,16 @@ class Account extends Model
 
     public function scopeSearch(Builder $builder, string $search)
     {
-        $builder->where(function (Builder $query) use ($search) {
+        return $builder->where(function (Builder $query) use ($search) {
             $query->where('title', 'LIKE', "%$search%")
                 ->orWhere('bio', 'LIKE', "%$search%")
                 ->orWhereHas('user', fn (Builder $subQuery) => $subQuery->search($search));
         });
+    }
+
+    public function scopeType(Builder $builder, string $type)
+    {
+        return $builder->where('type', $type);
     }
 
     public function scopeSkills(Builder $builder, ...$skillIds)
