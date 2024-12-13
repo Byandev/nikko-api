@@ -37,6 +37,9 @@ class ProjectController extends Controller
                     });
                 }),
             ])
+            ->whereHas('account', function (Builder $builder) {
+                $builder->appendTotalSpent()->appendTotalEarnings();
+            })
             ->orderBy('created_at', 'DESC')
             ->paginate($request->per_page ?? 10);
 
