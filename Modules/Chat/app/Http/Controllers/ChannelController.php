@@ -21,7 +21,7 @@ class ChannelController extends Controller
             ->whereHas('members', function (Builder $builder) {
                 $builder->where('users.id', Auth::id());
             })
-            ->orderBy('last_activity_at', 'DESC')
+            ->orderBy('updated_at', 'DESC')
             ->paginate($request->input('per_page', 10));
 
         return ChannelResource::collection($channels);
