@@ -34,7 +34,7 @@ class InvitedToSendProposal extends Notification
         return [
             'title' => 'Project Invitation Received',
             'message' => "Exciting news! Client has invited you to submit a proposal for their project. Check out the details and submit your proposal to showcase your skills.\nIf you have any questions, the Artsycrowd Team is here to assist you.\n\nBest Regards,\nArtsycrowd Team",
-            'data' => $this->proposalInvitation,
+            'proposal_invitation' => $this->proposalInvitation,
         ];
     }
 }

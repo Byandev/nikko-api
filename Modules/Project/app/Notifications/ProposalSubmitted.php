@@ -34,7 +34,7 @@ class ProposalSubmitted extends Notification
         return [
             'title' => 'New Proposal Received',
             'message' => "Exciting news! You've received a new proposal for your posted job. Review the details and find the perfect freelancer for your project.\nIf you have any questions, the Artsycrowd Team is here to assist you.\n\nBest Regards,\nArtsycrowd Team",
-            'data' => $this->proposal,
+            'proposal' => $this->proposal,
         ];
     }
 }

@@ -37,7 +37,7 @@ class ContractRejected extends Notification
         return [
             'title' => 'Contract Rejected',
             'message' => "Sorry! Contract has been rejected by the other party. \nIf you have any questions, the Artsycrowd Team is here to assist you.\n\nBest Regards,\nArtsycrowd Team",
-            'data' => $this->contract,
+            'contract' => $this->contract,
         ];
     }
 }

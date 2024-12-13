@@ -34,7 +34,7 @@ class ContractCreated extends Notification
         return [
             'title' => 'Contract To Review',
             'message' => "Exciting news! Client has created a contract for you. \nIf you have any questions, the Artsycrowd Team is here to assist you.\n\nBest Regards,\nArtsycrowd Team",
-            'data' => $this->contract,
+            'contract' => $this->contract,
         ];
     }
 }

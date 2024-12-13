@@ -34,7 +34,7 @@ class ContractAccepted extends Notification
         return [
             'title' => 'Contract Accepted',
             'message' => "Exciting news! Contract has been accepted. \nIf you have any questions, the Artsycrowd Team is here to assist you.\n\nBest Regards,\nArtsycrowd Team",
-            'data' => $this->contract,
+            'contract' => $this->contract,
         ];
     }
 }
