@@ -37,6 +37,7 @@ class ProjectController extends Controller
             ])
             ->where('account_id', $request->account->id)
             ->with(['images', 'skills', 'languages'])
+            ->orderBy('updated_at', 'DESC')
             ->paginate($request->per_page ?? 10);
 
         return ProjectResource::collection($data);

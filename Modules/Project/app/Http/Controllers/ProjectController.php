@@ -37,6 +37,7 @@ class ProjectController extends Controller
                     });
                 }),
             ])
+            ->orderBy('created_at', 'DESC')
             ->paginate($request->per_page ?? 10);
 
         $savedCount = QueryBuilder::for(Project::class)

@@ -24,6 +24,7 @@ class ProjectController extends Controller
                 AllowedFilter::scope('search'),
             ])
             ->allowedIncludes(['images', 'skills', 'languages', 'account', 'account.user', 'account.user.avatar'])
+            ->orderBy('created_at', 'DESC')
             ->paginate($request->per_page ?? 10);
 
         return ProjectResource::collection($data);
