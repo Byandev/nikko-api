@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Modules\Project\Enums\ContractStatus;
 use Modules\Project\Models\Contract;
 use Modules\Project\Models\Proposal;
+use Modules\Project\Notifications\ContractCreated;
 use Modules\Project\Transformers\ContractResource;
 use Spatie\QueryBuilder\AllowedFilter;
 use Spatie\QueryBuilder\QueryBuilder;
@@ -72,6 +73,8 @@ class ContractController extends Controller
             'status' => ContractStatus::PENDING->value,
             'end_date' => $request->post('end_date'),
         ]);
+
+        $contract->account->user->notify(new ContractCreated($contract));
 
         return ContractResource::make($contract->load(['account', 'proposal', 'project']));
     }

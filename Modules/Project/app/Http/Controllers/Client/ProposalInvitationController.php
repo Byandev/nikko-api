@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Modules\Project\Enums\ProposalInvitationStatus;
 use Modules\Project\Models\Proposal;
 use Modules\Project\Models\ProposalInvitation;
+use Modules\Project\Notifications\InvitedToSendProposal;
 use Modules\Project\Transformers\ProposalInvitationResource;
 use Spatie\QueryBuilder\QueryBuilder;
 
@@ -72,6 +73,8 @@ class ProposalInvitationController extends Controller
             'message' => $request->post('message'),
             'account_id' => $request->post('account_id'),
         ]);
+
+        $invitation->account->user->notify(new InvitedToSendProposal($invitation));
 
         return ProposalInvitationResource::make($invitation);
     }
