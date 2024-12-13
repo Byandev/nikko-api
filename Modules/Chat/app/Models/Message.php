@@ -26,7 +26,7 @@ class Message extends Model implements HasMedia
      */
     protected $guarded = [];
 
-    protected $appends = ['is_sent_by_me'];
+    protected $appends = ['sent_by_me'];
 
     protected static function newFactory(): MessageFactory
     {
@@ -52,7 +52,7 @@ class Message extends Model implements HasMedia
             });
     }
 
-    public function getIsSentByMeAttribute(): bool
+    public function getSentByMeAttribute(): bool
     {
         return Auth::check() && $this->sender_id == Auth::id();
     }
