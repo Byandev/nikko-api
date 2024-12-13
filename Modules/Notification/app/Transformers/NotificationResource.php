@@ -29,10 +29,12 @@ class NotificationResource extends JsonResource
             'id' => $this->id,
             'type' => $type,
             'notifiable_id' => $this->notifiable_id,
+            'title' => Arr::get($this->data, 'title'),
             'message' => Arr::get($this->data, 'message'),
             'read_at' => $this->read_at,
             'read' => (bool) $this->read_at,
             'created_at' => $this->created_at,
+            'data' => $this->data,
         ];
     }
 }
