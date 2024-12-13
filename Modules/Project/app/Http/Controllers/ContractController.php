@@ -8,6 +8,8 @@ use Modules\Project\Enums\ContractStatus;
 use Modules\Project\Enums\ProposalStatus;
 use Modules\Project\Models\Contract;
 use Modules\Project\Models\Proposal;
+use Modules\Project\Notifications\ContractAccepted;
+use Modules\Project\Notifications\ContractRejected;
 use Modules\Project\Transformers\ContractResource;
 use Spatie\QueryBuilder\AllowedFilter;
 use Spatie\QueryBuilder\QueryBuilder;
@@ -53,9 +55,14 @@ class ContractController extends Controller
         if ($request->post('status') === ContractStatus::ACTIVE->value) {
             Proposal::where('id', $contract->proposal_id)
                 ->update(['status' => ProposalStatus::PENDING_OFFER->value]);
+
+            $contract->project->account->user->notify(new ContractAccepted($contract));
+
         } else {
             Proposal::where('id', $contract->proposal_id)
                 ->update(['status' => ProposalStatus::SUBMITTED->value]);
+
+            $contract->project->account->user->notify(new ContractRejected($contract));
         }
 
         $contract->update($data);

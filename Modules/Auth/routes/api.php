@@ -22,6 +22,7 @@ use Modules\Certificate\Http\Controllers\CertificateController;
 use Modules\Chat\Http\Controllers\ChannelController;
 use Modules\Chat\Http\Controllers\ChatMessageController;
 use Modules\Media\Http\Controllers\MediaController;
+use Modules\Notification\Http\Controllers\NotificationController;
 use Modules\Portfolio\Http\Controllers\PortfolioController;
 use Modules\Project\Http\Controllers\Client\ContractController as ClientContractController;
 use Modules\Project\Http\Controllers\Client\ProjectController;
@@ -190,6 +191,8 @@ Route::middleware(['auth:sanctum'])->prefix('v1')->group(function () {
         Route::apiResource('/channels', ChannelController::class)->only(['index', 'store', 'show'])->names('chat.channels');
         Route::apiResource('/channels/{channel}/messages', ChatMessageController::class)->only(['index', 'store', 'show'])->names('chat.channels.messages');
     });
+
+    Route::apiResource('/notifications', NotificationController::class)->names('notifications');
 
     Route::group(['prefix' => 'admin', 'middleware' => ['role:ADMIN']], function () {
         Route::get('analytics', [\Modules\Project\Http\Controllers\Admin\AnalyticsController::class, 'index']);

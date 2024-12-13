@@ -12,6 +12,7 @@ use Modules\Project\Enums\ProposalInvitationStatus;
 use Modules\Project\Enums\ProposalStatus;
 use Modules\Project\Models\Proposal;
 use Modules\Project\Models\ProposalInvitation;
+use Modules\Project\Notifications\ProposalSubmitted;
 use Modules\Project\Transformers\ProposalResource;
 use Spatie\QueryBuilder\QueryBuilder;
 
@@ -80,7 +81,11 @@ class ProposalController extends Controller
                 $media->move($proposal, MediaCollectionType::PROPOSAL_ATTACHMENTS->value);
             });
 
-        return ProposalResource::make($proposal->load(['project.account.user', 'attachments']));
+        $proposal->load(['project.account.user', 'attachments']);
+
+        $proposal->project->account->user->notify(new ProposalSubmitted($proposal));
+
+        return ProposalResource::make($proposal);
     }
 
     /**

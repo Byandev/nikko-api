@@ -7,5 +7,6 @@
     "Tool": true,
     "Project": true,
     "Save": true,
-    "Chat": true
+    "Chat": true,
+    "Notification": true
 }
