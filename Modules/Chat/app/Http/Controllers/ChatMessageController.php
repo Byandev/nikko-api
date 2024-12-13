@@ -8,9 +8,11 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Modules\Chat\Broadcasting\MessageSent;
 use Modules\Chat\Models\Channel;
+use Modules\Chat\Notifications\FirstMessageSent;
 use Modules\Chat\Transformers\MessageResource;
 use Modules\Media\Enums\MediaCollectionType;
 use Modules\Media\Models\Media;
+use Modules\Project\Models\Proposal;
 
 class ChatMessageController extends Controller
 {
@@ -53,6 +55,15 @@ class ChatMessageController extends Controller
 
         $channel->last_activity_at = Carbon::now();
         $channel->save();
+
+        if ($channel->messages()->count() === 1 && $channel->subject_type === Proposal::class) {
+            $proposal = Proposal::with(['account.user'])
+                ->where('id', $channel->subject_id)->first();
+
+            if ($proposal->account->user->id !== Auth::id()) {
+                $proposal->account->user->notify(new FirstMessageSent($message));
+            }
+        }
 
         broadcast(new MessageSent($message));
 

@@ -3,8 +3,8 @@
 namespace Modules\Chat\Notifications;
 
 use Illuminate\Bus\Queueable;
-use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
+use Modules\Chat\Models\Message;
 
 class FirstMessageSent extends Notification
 {
@@ -13,28 +13,14 @@ class FirstMessageSent extends Notification
     /**
      * Create a new notification instance.
      */
-    public function __construct()
-    {
-        //
-    }
+    public function __construct(public Message $message) {}
 
     /**
      * Get the notification's delivery channels.
      */
     public function via($notifiable): array
     {
-        return ['mail'];
-    }
-
-    /**
-     * Get the mail representation of the notification.
-     */
-    public function toMail($notifiable): MailMessage
-    {
-        return (new MailMessage)
-            ->line('The introduction to the notification.')
-            ->action('Notification Action', 'https://laravel.com')
-            ->line('Thank you for using our application!');
+        return ['database'];
     }
 
     /**
@@ -42,6 +28,10 @@ class FirstMessageSent extends Notification
      */
     public function toArray($notifiable): array
     {
-        return [];
+        return [
+            'title' => 'New Message',
+            'message' => "You've got a new message. Check your inbox and continue the conversation to ensure a successful collaboration.\nIf you have any questions, the Artsycrowd Team is here to assist you.\n\nBest Regards,\nArtsycrowd Team",
+            'chat_message' => $this->message,
+        ];
     }
 }
