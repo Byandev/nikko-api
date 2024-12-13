@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
+use Illuminate\Support\Facades\Auth;
 use Modules\Auth\Models\User;
 use Modules\Chat\Database\Factories\MessageFactory;
 use Modules\Media\Enums\MediaCollectionType;
@@ -24,6 +25,8 @@ class Message extends Model implements HasMedia
      * The attributes that are mass assignable.
      */
     protected $guarded = [];
+
+    protected $appends = ['is_sent_by_me'];
 
     protected static function newFactory(): MessageFactory
     {
@@ -47,5 +50,10 @@ class Message extends Model implements HasMedia
             ->registerMediaConversions(function () {
                 $this->addMediaConversion('thumb')->width(254);
             });
+    }
+
+    public function getIsSentByMeAttribute(): bool
+    {
+        return Auth::check() && $this->sender_id == Auth::id();
     }
 }
