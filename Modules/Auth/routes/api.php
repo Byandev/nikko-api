@@ -11,6 +11,7 @@ use Modules\Auth\Http\Controllers\EmailVerificationController;
 use Modules\Auth\Http\Controllers\ForgotPasswordController;
 use Modules\Auth\Http\Controllers\LoginController;
 use Modules\Auth\Http\Controllers\LogoutController;
+use Modules\Auth\Http\Controllers\Payment\PaymentController;
 use Modules\Auth\Http\Controllers\ProfileController;
 use Modules\Auth\Http\Controllers\RegisterController;
 use Modules\Auth\Http\Controllers\ResetPasswordController;
@@ -193,6 +194,8 @@ Route::middleware(['auth:sanctum'])->prefix('v1')->group(function () {
     });
 
     Route::apiResource('/notifications', NotificationController::class)->names('notifications');
+
+    Route::get('/payment/client-token', [PaymentController::class, 'clientToken']);
 
     Route::group(['prefix' => 'admin', 'middleware' => ['role:ADMIN']], function () {
         Route::get('analytics', [\Modules\Project\Http\Controllers\Admin\AnalyticsController::class, 'index']);

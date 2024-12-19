@@ -3,6 +3,7 @@
 namespace Modules\Auth\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use Braintree\Gateway;
 use Modules\Auth\Http\Requests\RegistrationRequest;
 use Modules\Auth\Models\User;
 use Modules\Auth\Notifications\EmailVerificationNotification;
@@ -18,6 +19,23 @@ class RegisterController extends Controller
             'first_name' => $request->post('first_name'),
             'last_name' => $request->post('last_name'),
         ]);
+
+        $gateway = new Gateway([
+            'environment' => config('braintree.environment'),
+            'merchantId' => config('braintree.merchant_id'),
+            'publicKey' => config('braintree.public_key'),
+            'privateKey' => config('braintree.private_key'),
+        ]);
+
+        $response = $gateway->customer()->create([
+            'firstName' => $user->first_name,
+            'lastName' => $user->last_name,
+            'email' => $user->email,
+        ]);
+
+        if ($response->success) {
+            $user->update(['braintree_customer_id' => $response->customer->id]);
+        }
 
         $user->accounts()->create([
             'type' => $request->post('account_type'),

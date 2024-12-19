@@ -29,6 +29,7 @@ class UserResource extends JsonResource
             'state_code' => $this->state_code,
             'country_code' => $this->country_code,
             'postal' => $this->postal,
+            'braintree_customer_id' => $this->braintree_customer_id,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
 
