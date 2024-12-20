@@ -8,5 +8,7 @@
     "Project": true,
     "Save": true,
     "Chat": true,
-    "Notification": true
+    "Notification": true,
+    "Product": true,
+    "Category": true
 }
